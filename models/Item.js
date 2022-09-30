@@ -2,8 +2,9 @@
   A class representing a certain item in stock (e.g. cups)
 */
 export class Item {
-  //Create an Item.
-  //item should be a JS object with the same properties as Item.
+  /* Create an Item.
+    item should be a JS object with the same properties as Item.
+    */
   constructor(item) {
     // What the item is called
     this.name = item.name;
