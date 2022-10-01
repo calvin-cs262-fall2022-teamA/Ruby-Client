@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SiteScreen from "./Screens/site";
+import LoginScreen from "./Screens/login";
+import AdminScreen from "./Screens/admin";
+import Header from "./shared/header";
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+ function App() {
   return (
-    <View style={styles.container}>
-      <Text>Welcome to the Ruby client!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen name="Login" component={LoginScreen} options=
+      {({ navigation }) => ({
+     headerRight: () => (
+    <Header navigation={navigation}/>
+    )})}/>
+        <Stack.Screen name="Site" component={SiteScreen} />
+        <Stack.Screen name="Admin" component={AdminScreen} />
+        
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
+
