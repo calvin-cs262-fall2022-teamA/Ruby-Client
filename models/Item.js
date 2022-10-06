@@ -4,16 +4,16 @@
 export class Item {
   constructor({ name, amount, minimumAmount, defaultIncrement }) {
     // What the item is called
-    this.name = name;
+    this.name = item.name;
 
     // How much of the item is currently in stock
-    this.amount = amount;
+    this.amount = item.amount;
 
     // The amount at which a low inventory notification should be sent
-    this.minimumAmount = minimumAmount;
+    this.minimumAmount = item.minimumAmount;
 
     // The default number of items added or removed at one time
-    this.defaultIncrement = defaultIncrement;
+    this.defaultIncrement = item.defaultIncrement;
   }
 
   /*
@@ -54,7 +54,7 @@ export class Item {
   }
 
   /*
-    Save the item to the database.
+    Saves the item to the database.
   */
   save() {
     console.log(`Saving! name=${this.name} amount=${this.amount} minimumAmount=${this.minimumAmount} defaultIncrement=${this.defaultIncrement}`);
