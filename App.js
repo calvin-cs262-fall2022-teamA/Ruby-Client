@@ -10,6 +10,8 @@ import HomeScreen from './screens/home';
 import SplashScreen from './screens/login/splash';
 import SignInScreen from './screens/login/login';
 import RegisterScreen from './screens/login/register';
+import { ItemEditScreen } from './screens/ItemEditScreen';
+import ItemScreen from "./screens/items";
 import { AuthContext } from './states/auth';
 
 
@@ -160,10 +162,12 @@ export default function App({ navigation }) {
             // User is signed in: Put all the app screens between the <> and </>
             // This homescreen gives an example how to access state variables 
             <>
-              <Stack.Screen 
+              {/* <Stack.Screen 
                 name="Home" 
                 component={HomeScreen}
-                initialParams={{ userToken: state.userToken }} />
+                initialParams={{ userToken: state.userToken }} /> */}
+                <Stack.Screen name="Items" component={ItemScreen} />
+                <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
             </>
             
           )}

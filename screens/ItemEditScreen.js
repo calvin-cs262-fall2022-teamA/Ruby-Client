@@ -1,6 +1,7 @@
 import React from "react";
 import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { TextBox } from "../components/TextBox";
+import Icon from 'react-native-vector-icons/Entypo';
 
 /* A screen used to edit an item in inventory */
 export function ItemEditScreen({ navigation, route }) {
@@ -59,7 +60,7 @@ export function ItemEditScreen({ navigation, route }) {
                 setAmount(item.amount.toString());
               }
             }}>
-            <Text style={styles.incrementButtonText}>+</Text>
+            <Icon name="plus" style={styles.incrementButtonText}></Icon>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.incrementButton}
@@ -69,7 +70,7 @@ export function ItemEditScreen({ navigation, route }) {
                 setAmount(item.amount.toString());
               }
             }}>
-            <Text style={styles.incrementButtonText}>&#8212;</Text>
+            <Icon name="minus" style={styles.incrementButtonText}></Icon>
           </TouchableOpacity>
 
           <TextBox style={{ ...styles.textBox, ...styles.incrementTextBox }}

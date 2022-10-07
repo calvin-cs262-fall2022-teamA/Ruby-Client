@@ -4,16 +4,16 @@
 export class Item {
   constructor({ name, amount, minimumAmount, defaultIncrement }) {
     // What the item is called
-    this.name = item.name;
+    this.name = name;
 
     // How much of the item is currently in stock
-    this.amount = item.amount;
+    this.amount = amount;
 
     // The amount at which a low inventory notification should be sent
-    this.minimumAmount = item.minimumAmount;
+    this.minimumAmount = minimumAmount;
 
     // The default number of items added or removed at one time
-    this.defaultIncrement = item.defaultIncrement;
+    this.defaultIncrement = defaultIncrement;
   }
 
   /*
