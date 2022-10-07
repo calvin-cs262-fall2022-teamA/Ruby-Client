@@ -10,7 +10,8 @@ import HomeScreen from './screens/home';
 import SplashScreen from './screens/login/splash';
 import SignInScreen from './screens/login/login';
 import RegisterScreen from './screens/login/register';
-import AdminScreen from "./Screens/admin";
+import { ItemEditScreen } from './screens/ItemEditScreen';
+import ItemScreen from "./screens/items";
 import { AuthContext } from './states/auth';
 
 
@@ -165,7 +166,8 @@ export default function App({ navigation }) {
                 name="Home" 
                 component={HomeScreen}
                 initialParams={{ userToken: state.userToken }} /> */}
-                <Stack.Screen name="Admin" component={AdminScreen} />
+                <Stack.Screen name="Items" component={ItemScreen} />
+                <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
             </>
             
           )}
