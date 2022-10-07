@@ -1,10 +1,11 @@
 import React from "react";
 import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { TextBox } from "../components/TextBox";
+import { TextBox } from "../components/textbox";
 import Icon from 'react-native-vector-icons/Entypo';
+import { globalStyles } from '../styles/global';
 
 /* A screen used to edit an item in inventory */
-export function ItemEditScreen({ navigation, route }) {
+export default function ItemEditScreen({ navigation, route }) {
   const item = route.params;
   const [name, setName] = React.useState(item.name);
   const [amount, setAmount] = React.useState(item.amount);
@@ -60,7 +61,7 @@ export function ItemEditScreen({ navigation, route }) {
                 setAmount(item.amount.toString());
               }
             }}>
-            <Icon name="plus" style={styles.incrementButtonText}></Icon>
+            <Icon name="plus" style={globalStyles.incrementButtonText}></Icon>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.incrementButton}
@@ -70,7 +71,7 @@ export function ItemEditScreen({ navigation, route }) {
                 setAmount(item.amount.toString());
               }
             }}>
-            <Icon name="minus" style={styles.incrementButtonText}></Icon>
+            <Icon name="minus" style={globalStyles.incrementButtonText}></Icon>
           </TouchableOpacity>
 
           <TextBox style={{ ...styles.textBox, ...styles.incrementTextBox }}
@@ -136,12 +137,6 @@ const styles = StyleSheet.create({
     borderRadius: 10000,
     backgroundColor: "#d975d2",
     marginLeft: "1%",
-  },
-  incrementButtonText: {
-    textAlign: "center",
-    textAlignVertical: "center",
-    color: "#fff",
-    fontSize: 40,
   },
   incrementTextBox: {
     marginLeft: "1%",
