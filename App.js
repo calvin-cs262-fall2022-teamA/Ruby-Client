@@ -10,8 +10,8 @@ import HomeScreen from './screens/home';
 import SplashScreen from './screens/login/splash';
 import SignInScreen from './screens/login/login';
 import RegisterScreen from './screens/login/register';
-import { ItemEditScreen } from './screens/ItemEditScreen';
-import ItemScreen from "./screens/items";
+import ItemEditScreen from './screens/itemedit';
+import ItemsScreen from "./screens/items";
 import { AuthContext } from './states/auth';
 
 
@@ -50,7 +50,7 @@ export default function App({ navigation }) {
     }
   );
 
-  // Run a loading effect (not sure how yet) 
+  // Run a loading effect (not sure how yet)
   // while waiting for server to authenticate the user
   React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
@@ -62,7 +62,7 @@ export default function App({ navigation }) {
         userToken = await SecureStore.getItemAsync('userToken');
       } catch (e) {
         // Restoring token failed
-        
+
       }
 
       // After restoring token, we may need to validate it in production apps
@@ -80,7 +80,7 @@ export default function App({ navigation }) {
   }, []);
 
   // Functions to update login state
-  // EX: 
+  // EX:
   // const { signIn } = React.useContext(AuthContext);
   // signIn( {username, password} );
   const authContext = React.useMemo(
@@ -90,12 +90,12 @@ export default function App({ navigation }) {
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
         // In the example, we'll use a dummy token
-        
-        // Only have 1 password stored in secure storage for now, switch 
+
+        // Only have 1 password stored in secure storage for now, switch
         let username, password
         try {
           // Restore token stored in `SecureStore` or any other encrypted storage
-          
+
           username = await SecureStore.getItemAsync("username");
           password = await SecureStore.getItemAsync("password");
         } catch (e) {
@@ -111,7 +111,7 @@ export default function App({ navigation }) {
           // Investigate way to update text/show bad password
         }
 
-        
+
       },
       signOut: () => {
         // Simulate logout by deleting saved userToken
@@ -123,9 +123,9 @@ export default function App({ navigation }) {
         SecureStore.setItemAsync('username', data.username);
         SecureStore.setItemAsync('password', data.password);
 
-        // Save user token 
+        // Save user token
         SecureStore.setItemAsync('userToken', data.username);
-        dispatch({ type: 'SIGN_IN', token: data.username }); 
+        dispatch({ type: 'SIGN_IN', token: data.username });
       },
     }),
     []
@@ -149,27 +149,27 @@ export default function App({ navigation }) {
                   // When logging out, a pop animation feels intuitive
                   animationTypeForReplace: state.isSignout ? 'pop' : 'push',
                 }} />
-              <Stack.Screen 
-                  name="Register"
-                  component={RegisterScreen}
-                  options={{
-                    title: 'Register',
-                    // When logging out, a pop animation feels intuitive
-                    animationTypeForReplace: state.isSignout ? 'pop' : 'push',
-                  }} />
+              <Stack.Screen
+                name="Register"
+                component={RegisterScreen}
+                options={{
+                  title: 'Register',
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+                }} />
             </>
           ) : (
             // User is signed in: Put all the app screens between the <> and </>
-            // This homescreen gives an example how to access state variables 
+            // This homescreen gives an example how to access state variables
             <>
-              {/* <Stack.Screen 
-                name="Home" 
+              {/* <Stack.Screen
+                name="Home"
                 component={HomeScreen}
                 initialParams={{ userToken: state.userToken }} /> */}
-                <Stack.Screen name="Items" component={ItemScreen} />
-                <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
+              <Stack.Screen name="Items" component={ItemsScreen} />
+              <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
             </>
-            
+
           )}
         </Stack.Navigator>
       </NavigationContainer>
