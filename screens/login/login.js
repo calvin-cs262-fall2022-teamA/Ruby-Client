@@ -1,10 +1,44 @@
 import React from 'react';
-import { View, Button, TextInput } from 'react-native';
+import { Text, View, Button, TextInput } from 'react-native';
+import RadioGroup from 'react-native-radio-buttons-group';
+import { globalStyles } from '../../styles/global';
+
 import { AuthContext } from '../../states/auth';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 export default function SignInScreen({navigation }) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  // Temporary before database
+  const [radioButtons, setRadioButtons] = React.useState([
+    {
+      id: '1', // acts as primary key, should be unique and non-empty string
+      label: 'Admin',
+      value: 'Admin',
+      selected: true // Defaults to admin
+    },
+    {
+      id: '2',
+      label: 'Site',
+      value: 'Site',
+      selected: false
+    },
+    {
+      id: '3',
+      label: 'Volunteer',
+      value: 'Volunteer',
+      selected: false
+    }
+  ]);
+  const [selected, setSelected] = React.useState(radioButtons[0].value);
+
+  // Temporary before database
+  function onPressRadioButton(radioButtonsArray) {
+    setRadioButtons(radioButtonsArray);
+    setSelected(radioButtons.find(e => e.selected == true).value);
+  }
 
   const { signIn } = React.useContext(AuthContext);
 
@@ -21,8 +55,18 @@ export default function SignInScreen({navigation }) {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Sign in" onPress={() => signIn({ username, password })} />
-      <Button title="Register" onPress={() => navigation.navigate('Register')} />
+      {/* remove selected when migrating to database */}
+      <TouchableOpacity style={globalStyles.loginAction} onPress={() => signIn({ username, password, selected })}>
+        <Text style={globalStyles.loginActionText}>Sign In</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={globalStyles.loginNav } onPress={() => navigation.navigate('Register')}>
+        <Text style={globalStyles.loginNavText }>Register</Text>
+      </TouchableOpacity>
+      {/* Temporary before database */}
+      <RadioGroup
+        radioButtons={radioButtons}
+        onPress={onPressRadioButton}
+      />
     </View>
   );
 }

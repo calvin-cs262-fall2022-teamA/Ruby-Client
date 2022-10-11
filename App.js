@@ -1,7 +1,7 @@
 // From https://reactnavigation.org/docs/auth-flow/
 
 import * as React from 'react';
-import { Button, Text, TextInput, View } from 'react-native';
+import { Alert, Button, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store';
@@ -27,12 +27,14 @@ export default function App({ navigation }) {
             ...prevState,
             userToken: action.token,
             isLoading: false,
+            type: action.selected,
           };
         case 'SIGN_IN':
           return {
             ...prevState,
             isSignout: false,
             userToken: action.token,
+            type: action.selected,
           };
         case 'SIGN_OUT':
           return {
@@ -47,6 +49,7 @@ export default function App({ navigation }) {
       isLoading: true,
       isSignout: false,
       userToken: null,
+      type: 'Admin',
     }
   );
 
@@ -60,11 +63,12 @@ export default function App({ navigation }) {
       try {
         // Restore token stored in `SecureStore` or any other encrypted storage
         userToken = await SecureStore.getItemAsync('userToken');
+        type = await SecureStore.getItemAsync('type');
       } catch (e) {
         // Restoring token failed
 
       }
-
+      // Alert(type);
       // After restoring token, we may need to validate it in production apps
       // if (userToken) {
 
@@ -73,7 +77,7 @@ export default function App({ navigation }) {
       // }
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+      dispatch({ type: 'RESTORE_TOKEN', token: userToken, selected: type });
     };
 
     bootstrapAsync();
@@ -105,7 +109,8 @@ export default function App({ navigation }) {
 
         if (username == data.username && password == data.password) {
           SecureStore.setItemAsync('userToken', username);
-          dispatch({ type: 'SIGN_IN', token: username });
+          SecureStore.setItemAsync('type', data.selected);
+          dispatch({ type: 'SIGN_IN', token: username, selected: data.selected });
         } else {
           alert('Invalid password or username');
           // Investigate way to update text/show bad password
@@ -116,6 +121,7 @@ export default function App({ navigation }) {
       signOut: () => {
         // Simulate logout by deleting saved userToken
         SecureStore.deleteItemAsync('userToken');
+        SecureStore.deleteItemAsync('type');
         dispatch({ type: 'SIGN_OUT' })
       },
       register: async (data) => {
@@ -125,7 +131,8 @@ export default function App({ navigation }) {
 
         // Save user token
         SecureStore.setItemAsync('userToken', data.username);
-        dispatch({ type: 'SIGN_IN', token: data.username });
+        SecureStore.setItemAsync('type', data.selected);
+        dispatch({ type: 'SIGN_IN', token: data.username, selected: data.selected });
       },
     }),
     []
@@ -166,8 +173,8 @@ export default function App({ navigation }) {
                 name="Home"
                 component={HomeScreen}
                 initialParams={{ userToken: state.userToken }} /> */}
-              <Stack.Screen name="Items" component={ItemsScreen} />
-              <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
+              <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: state.type }}/>
+              <Stack.Screen name="ItemEditScreen" component={ItemEditScreen}  />
             </>
 
           )}
