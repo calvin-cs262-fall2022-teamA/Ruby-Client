@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Text } from 'react-native';
 import { globalStyles } from '../styles/global';
 import ListItem from '../components/listitem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Item } from "../models/item";
+import { Item } from "../models/Item";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../states/auth';
 
