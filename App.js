@@ -5,6 +5,9 @@ import { Alert, Button, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import HomeScreen from './screens/home';
 import SplashScreen from './screens/login/splash';
@@ -16,6 +19,9 @@ import { AuthContext } from './states/auth';
 
 
 const Stack = createStackNavigator();
+const Tabs = createBottomTabNavigator();
+
+
 
 export default function App({ navigation }) {
   // Handles state transitions for Authorization: calls only made by useMemo
@@ -183,3 +189,11 @@ export default function App({ navigation }) {
     </AuthContext.Provider>
   );
 }
+// function ItemsScreen(){
+//   return (
+//     <Tabs.Navigator>
+//       <Tabs.Screen name="Items" component={ItemsScreen} initialParams={{ userType: state.type }}/>
+//       <Tabs.Screen name = "Edit Items" component={ItemEditScreen}/>
+//     </Tabs.Navigator>
+//   );
+// }

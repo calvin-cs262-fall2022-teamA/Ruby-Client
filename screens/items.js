@@ -7,15 +7,24 @@ import { Item } from "../models/Item";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../states/auth';
 
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 /*
     A screen that lists the items in inventory.
     This screen is similar for both the admin and site logins,
     but the admin has a few more actions they can take.
 */
+
+const Tab = createBottomTabNavigator();
+
 export default function ItemsScreen({ navigation, route }) {
     React.useEffect(() => {
         navigation.setOptions({ headerTitle: ItemsHeader });
     }, [navigation]);
+    
+   
 
     const { userType } = route.params;
     console.log(JSON.stringify(userType));
@@ -33,8 +42,12 @@ export default function ItemsScreen({ navigation, route }) {
           <TouchableOpacity style={globalStyles.loginNav} onPress={signOut}>
             <Text style={globalStyles.loginNavText}>Signout</Text>
           </TouchableOpacity>
+            <FlatList ListFooterComponent={Footer}/>
         </View>
+        
+        
     );
+
 }
 
 function ItemsHeader() {
@@ -49,12 +62,31 @@ function ItemsHeader() {
     );
 };
 
+
+
+
+const Footer = () => {
+    //View to set in Footer
+    return (
+        <View style={itemsStyles.headerStyle}>
+        <Text style={itemsStyles.textStyle}>Footer</Text>
+        
+    </View>
+    );
+}
+
 const itemsStyles = StyleSheet.create({
     headerStyle: {
         flexDirection: 'row',
         justifyContent: "space-between",
         width: '100%',
     },
+    FooterStyle: {
+        
+        width: '100%',
+        height: 60,
+        backgroundColor: '#606070',
+      },
     textStyle: {
         fontSize: 24,
         fontWeight: 'bold',
