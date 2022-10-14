@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { globalStyles } from '../styles/global';
-import { TextBox } from "./textbox";
+import { TextBox } from "./TextBox";
 import Icon from 'react-native-vector-icons/Entypo';
 
 /* A component used to display each item in the ItemsScreen */

@@ -1,6 +1,6 @@
 import React from "react";
 import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { TextBox } from "../components/textbox";
+import { TextBox } from "../components/TextBox";
 import Icon from 'react-native-vector-icons/Entypo';
 import { globalStyles } from '../styles/global';
 
