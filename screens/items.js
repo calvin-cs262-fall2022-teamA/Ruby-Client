@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Text } from 'react-native';
 import { globalStyles } from '../styles/global';
 import ListItem from '../components/listitem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Item } from "../models/Item";
+import { Item } from "../models/item";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../states/auth';
 
@@ -29,10 +29,10 @@ export default function ItemsScreen({ navigation, route }) {
                 <ListItem item={item} navigation={navigation}></ListItem>
             )}>
             </FlatList>
-          {/* // Temporary to test login features with different user views */}
-          <TouchableOpacity style={globalStyles.loginNav} onPress={signOut}>
-            <Text style={globalStyles.loginNavText}>Signout</Text>
-          </TouchableOpacity>
+            {/* // Temporary to test login features with different user views */}
+            <TouchableOpacity style={globalStyles.loginNav} onPress={signOut}>
+                <Text style={globalStyles.loginNavText}>Signout</Text>
+            </TouchableOpacity>
         </View>
     );
 }
