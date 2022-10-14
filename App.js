@@ -176,11 +176,12 @@ export default function App({ navigation }) {
             // This homescreen gives an example how to access state variables
             <>
               {/* <Stack.Screen
-                name="Home"
+                name="HomeScreen"
                 component={HomeScreen}
                 initialParams={{ userToken: state.userToken }} /> */}
-              <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: state.type }}/>
-              <Stack.Screen name="ItemEditScreen" component={ItemEditScreen}  />
+              {/* <Stack.Screen name= "ItemEdit" component={ItemEdit}  /> */}
+              <Stack.Screen name= "Items" component={ItemsScreen} initialParams={{ userType: state.type }}/>
+              <Stack.Screen name= "ItemEditScreen" component={ItemEditScreen}  />
             </>
 
           )}
@@ -189,11 +190,12 @@ export default function App({ navigation }) {
     </AuthContext.Provider>
   );
 }
-// function ItemsScreen(){
+// function ItemEdit(){
 //   return (
 //     <Tabs.Navigator>
-//       <Tabs.Screen name="Items" component={ItemsScreen} initialParams={{ userType: state.type }}/>
+//       {/* <Tabs.Screen name="Items" component={ItemsScreen} initialParams={{ userType: state.type }}/> */}
 //       <Tabs.Screen name = "Edit Items" component={ItemEditScreen}/>
+      
 //     </Tabs.Navigator>
 //   );
 // }

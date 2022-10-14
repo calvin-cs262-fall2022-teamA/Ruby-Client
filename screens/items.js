@@ -6,18 +6,18 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Item } from "../models/Item";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../states/auth';
+import { Notifications } from './notifications';
 
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
 /*
     A screen that lists the items in inventory.
     This screen is similar for both the admin and site logins,
     but the admin has a few more actions they can take.
 */
 
-const Tab = createBottomTabNavigator();
+
 
 export default function ItemsScreen({ navigation, route }) {
     React.useEffect(() => {
@@ -32,8 +32,8 @@ export default function ItemsScreen({ navigation, route }) {
     const { signOut } = React.useContext(AuthContext);
 
     return (
-
-        <View>
+    <View style = {itemsStyles.container}>
+        <View style = {itemsStyles.content}>
             <FlatList data={items} renderItem={({ item }) => (
                 <ListItem item={item} navigation={navigation}></ListItem>
             )}>
@@ -42,9 +42,16 @@ export default function ItemsScreen({ navigation, route }) {
           <TouchableOpacity style={globalStyles.loginNav} onPress={signOut}>
             <Text style={globalStyles.loginNavText}>Signout</Text>
           </TouchableOpacity>
-            <FlatList ListFooterComponent={Footer}/>
         </View>
-        
+        <View style={itemsStyles.footer}>
+       
+            <Icon style={itemsStyles.footerIcons} name="dehaze" size={30}></Icon>
+            <Icon style={itemsStyles.footerIcons} name='home' size={30}></Icon>
+      
+            <Icon style={itemsStyles.footerIcons} name="inbox" size={30}></Icon>
+           
+        </View>
+    </View>
         
     );
 
@@ -68,8 +75,8 @@ function ItemsHeader() {
 const Footer = () => {
     //View to set in Footer
     return (
-        <View style={itemsStyles.headerStyle}>
-        <Text style={itemsStyles.textStyle}>Footer</Text>
+    <View style={itemsStyles.footer}>
+        <Text>Footer</Text>
         
     </View>
     );
@@ -96,6 +103,27 @@ const itemsStyles = StyleSheet.create({
         justifyContent: 'space-between',
         width: "20%",
     },
+    container: {
+        flex: 1,
+        backgroundColor: '#ecf0f1',
+      },
+      content: {
+        flex: 1
+      },
+      footer: {
+        justifyContent: 'center',
+        flexDirection: 'row',
+        backgroundColor: "grey",
+        padding: 25,
+        borderRadius: 50
+        
+      },
+      footerIcons: {
+        paddingHorizontal: 45
+        
+
+      }
+    
 
 });
 
