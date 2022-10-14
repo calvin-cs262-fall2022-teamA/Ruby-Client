@@ -147,13 +147,15 @@ export default function App({ navigation }) {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <Stack.Navigator>
           {state.isLoading ? (
-            // We haven't finished checking for the token yet
+            <Stack.Navigator>
+            {/* // We haven't finished checking for the token yet */}
             <Stack.Screen name="Splash" component={SplashScreen} />
+          </Stack.Navigator>
           ) : state.userToken == null ? (
             // No token found, user isn't signed in
-            <>
+            <Stack.Navigator>
+            
               <Stack.Screen
                 name="SignIn"
                 component={SignInScreen}
@@ -170,32 +172,36 @@ export default function App({ navigation }) {
                   // When logging out, a pop animation feels intuitive
                   animationTypeForReplace: state.isSignout ? 'pop' : 'push',
                 }} />
-            </>
+            
+            </Stack.Navigator>
           ) : (
             // User is signed in: Put all the app screens between the <> and </>
             // This homescreen gives an example how to access state variables
-            <>
-              {/* <Stack.Screen
+          
+              /* <Stack.Screen
                 name="HomeScreen"
                 component={HomeScreen}
-                initialParams={{ userToken: state.userToken }} /> */}
-              {/* <Stack.Screen name= "ItemEdit" component={ItemEdit}  /> */}
-              <Stack.Screen name= "Items" component={ItemsScreen} initialParams={{ userType: state.type }}/>
-              <Stack.Screen name= "ItemEditScreen" component={ItemEditScreen}  />
-            </>
+                initialParams={{ userToken: state.userToken }} /> */
+              /* <Stack.Screen name= "ItemEdit" component={ItemEdit}  /> */
+              <Tabs.Navigator>
+              <Tabs.Screen name= "Items" component={ItemEdit} initialParams={{ userType: state.type }}/>
+              </Tabs.Navigator>
+              
+            
 
           )}
-        </Stack.Navigator>
+        
       </NavigationContainer>
     </AuthContext.Provider>
   );
 }
-// function ItemEdit(){
-//   return (
-//     <Tabs.Navigator>
-//       {/* <Tabs.Screen name="Items" component={ItemsScreen} initialParams={{ userType: state.type }}/> */}
-//       <Tabs.Screen name = "Edit Items" component={ItemEditScreen}/>
+function ItemEdit({route}){
+  const userType = route.params.userType;
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: userType }}/>
+      <Stack.Screen name = "Edit Items" component={ItemEditScreen}/>
       
-//     </Tabs.Navigator>
-//   );
-// }
+    </Stack.Navigator>
+  );
+}
