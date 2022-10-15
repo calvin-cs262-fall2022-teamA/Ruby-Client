@@ -1,5 +1,10 @@
 # Ruby Client
 Contains ruby application for running on devices
+
+## GitHub Links
+- [Team Organization](https://github.com/calvin-cs262-fall2022-teamA)
+- [Project](https://github.com/calvin-cs262-fall2022-teamA/Ruby-Project)
+- [Data Service](https://github.com/calvin-cs262-fall2022-teamA/Ruby-Service)
 ## Log in
 ### Structure
 Based on [this](https://reactnavigation.org/docs/auth-flow/) tutorial.
