@@ -16,6 +16,7 @@ import RegisterScreen from './screens/login/register';
 import ItemEditScreen from './screens/itemedit';
 import ItemsScreen from "./screens/items";
 import { AuthContext } from './states/auth';
+import Notifications from './screens/notifications';
 
 
 const Stack = createStackNavigator();
@@ -184,7 +185,8 @@ export default function App({ navigation }) {
                 initialParams={{ userToken: state.userToken }} /> */
               /* <Stack.Screen name= "ItemEdit" component={ItemEdit}  /> */
               <Tabs.Navigator>
-              <Tabs.Screen name= "Items" component={ItemEdit} initialParams={{ userType: state.type }}/>
+              <Tabs.Screen name= "Item List" component={ItemEdit} initialParams={{ userType: state.type }}/>
+              <Tabs.Screen name= "Notifications" component={Notifications} initialParams={{ userType: state.type }}/>
               </Tabs.Navigator>
               
             
