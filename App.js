@@ -8,6 +8,7 @@ import * as SecureStore from 'expo-secure-store';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import HomeScreen from './screens/home';
 import SplashScreen from './screens/login/splash';
@@ -184,7 +185,24 @@ export default function App({ navigation }) {
                 component={HomeScreen}
                 initialParams={{ userToken: state.userToken }} /> */
               /* <Stack.Screen name= "ItemEdit" component={ItemEdit}  /> */
-              <Tabs.Navigator>
+              <Tabs.Navigator
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                  let iconName;
+      
+                  if (route.name === 'Item List') {
+                    iconName = 'now-widgets';
+                      
+                  } else if (route.name === 'Notifications') {
+                    iconName = 'notifications';
+                  }
+      
+                  // You can return any component that you like here!
+                  return <Icon name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: 'rgb(213,83,66)',
+                tabBarInactiveTintColor: 'gray',
+              })}>
               <Tabs.Screen name= "Item List" component={ItemEdit} initialParams={{ userType: state.type }}/>
               <Tabs.Screen name= "Notifications" component={Notifications} initialParams={{ userType: state.type }}/>
               </Tabs.Navigator>
@@ -202,7 +220,7 @@ function ItemEdit({route}){
   return (
     <Stack.Navigator>
       <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: userType }}/>
-      <Stack.Screen name = "Edit Items" component={ItemEditScreen}/>
+      <Stack.Screen name = "ItemEditScreen" component={ItemEditScreen}/>
       
     </Stack.Navigator>
   );
