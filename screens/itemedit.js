@@ -1,7 +1,8 @@
 import React from "react";
-import { Keyboard, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { TextBox } from "../components/textbox";
 import Icon from 'react-native-vector-icons/Entypo';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../styles/global';
 
 /* A screen used to edit an item in inventory */
@@ -12,10 +13,22 @@ export default function ItemEditScreen({ navigation, route }) {
   const [increment, setIncrement] = React.useState(item.defaultIncrement);
   const [defaultIncrement, setDefaultIncrement] = React.useState(item.defaultIncrement);
   const [minimumAmount, setMinimumAmount] = React.useState(item.minimumAmount);
+  const [deleteConfirmationShown, setDeleteConfirmationShown] = React.useState(false);
 
-  React.useEffect(() => {
-    navigation.setOptions({ title: "Edit Trailer 1's " + name }); //TODO: don't hardcode site name
-  }, [navigation]);
+  const header = (itemName, siteName) => (
+    <View style={globalStyles.header}>
+      <Text style={globalStyles.headerText}>Edit {siteName}'s {itemName}</Text>
+      <View>
+        <TouchableOpacity onPress={() => setDeleteConfirmationShown(true)}>
+          <MaterialIcon name="delete" size={30}></MaterialIcon>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  React.useEffect(
+    () => navigation.setOptions({ headerTitle: () => header(name, "Trailer 1") }, [navigation]) // TODO: don't hardcode site name
+  );
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -28,12 +41,10 @@ export default function ItemEditScreen({ navigation, route }) {
           label="Name"
           onChangeText={(name) => {
             setName(name);
-            navigation.setOptions({ title: "Edit Trailer 1's " + name }); //TODO: don't hardcode site name
           }}
           onEndEditing={() => {
             item.trySave.bind(item)("name", name);
-            setName(item.name.toString());
-            navigation.setOptions({ title: "Edit Trailer 1's " + item.name });
+            setName(item.name);
           }}
         />
 
@@ -110,6 +121,39 @@ export default function ItemEditScreen({ navigation, route }) {
           }}
         />
 
+        {/* Deletion Confirmation */}
+        <Modal
+          visible={deleteConfirmationShown}
+          transparent={true}
+          onRequestClose={() => setDeleteConfirmationShown(false)}
+        >
+          <View style={styles.deleteConfirmationBackground}>
+            <View style={styles.deleteConfirmation}>
+              <Text style={styles.deleteConfirmationText}>Are you sure you want to delete this item?</Text>
+              <View style={styles.deleteConfirmationButtons}>
+                <TouchableOpacity style={styles.deleteConfirmationButton}
+                  onPress={() => {
+                    item.archive();
+                    setDeleteConfirmationShown(false);
+                    navigation.pop();
+                  }}
+                >
+                  <Text style={{ ...styles.deleteConfirmationButtonText, ...styles.deleteConfirmationText }}>
+                    Yes, delete
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.deleteConfirmationButton}
+                  onPress={() => setDeleteConfirmationShown(false)}
+                >
+                  <Text style={{ ...styles.deleteConfirmationButtonText, ...styles.deleteConfirmationText }}>
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback >
   );
@@ -141,5 +185,39 @@ const styles = StyleSheet.create({
   incrementTextBox: {
     marginLeft: "1%",
     width: "15%"
-  }
+  },
+  deleteConfirmationBackground: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: 'rgba(0,0,0,0.2)',
+  },
+  deleteConfirmation: {
+    width: "100%",
+    backgroundColor: "white",
+    marginTop: "auto",
+    borderTopColor: "#d975d2",
+    borderLeftColor: "#d975d2",
+    borderRightColor: "#d975d2",
+    borderBottomColor: "white",
+    borderWidth: 3,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  deleteConfirmationText: {
+    fontSize: 18,
+    textAlign: "center",
+    padding: 8,
+  },
+  deleteConfirmationButtons: {
+    flexDirection: "row",
+  },
+  deleteConfirmationButton: {
+    backgroundColor: "#d975d2",
+    borderRadius: 10,
+    marginBottom: 14,
+    marginHorizontal: 8,
+  },
+  deleteConfirmationButtonText: {
+    color: "white",
+  },
 });
