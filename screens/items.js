@@ -39,9 +39,9 @@ export default function ItemsScreen({ navigation, route }) {
 
 function ItemsHeader() {
     return (
-        <View style={itemsStyles.headerStyle}>
-            <Text style={itemsStyles.textStyle}>Item List</Text>
-            <View style={itemsStyles.iconStyle}>
+        <View style={globalStyles.header}>
+            <Text style={globalStyles.headerText}>Item List</Text>
+            <View style={globalStyles.headerIcons}>
                 <Icon name="sort" size={30}></Icon>
                 <Icon name="search" size={30}></Icon>
             </View>
@@ -50,21 +50,6 @@ function ItemsHeader() {
 };
 
 const itemsStyles = StyleSheet.create({
-    headerStyle: {
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        width: '100%',
-    },
-    textStyle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
-    iconStyle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: "20%",
-    },
-
 });
 
 /* Test data to use without database */
