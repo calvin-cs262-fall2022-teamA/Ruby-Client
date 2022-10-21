@@ -60,4 +60,12 @@ export class Item {
     console.log(`Saving! name=${this.name} amount=${this.amount} minimumAmount=${this.minimumAmount} defaultIncrement=${this.defaultIncrement}`);
     // TODO: save in database
   }
+
+  /*
+    Archives the item (shown in UI as "delete")
+  */
+  archive() {
+    console.log(`Archiving! name=${this.name}`);
+    // TODO: archive in database
+  }
 }

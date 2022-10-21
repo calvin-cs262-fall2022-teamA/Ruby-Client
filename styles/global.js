@@ -16,12 +16,26 @@ export const globalStyles = StyleSheet.create({
     padding: 15,
   },
   loginAction: {
-    backgroundColor: '#d975d2', 
+    backgroundColor: '#d975d2',
   },
   loginActionText: {
     color: 'white',
     textAlign: 'center',
     padding: 10,
     fontWeight: 'bold'
-  }
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    width: '100%',
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  headerIcons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: "20%",
+  },
 });
