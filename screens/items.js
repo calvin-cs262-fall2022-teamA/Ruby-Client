@@ -6,16 +6,25 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Item } from "../models/item";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../states/auth';
+import { Notifications } from './notifications';
+
+
+
 
 /*
     A screen that lists the items in inventory.
     This screen is similar for both the admin and site logins,
     but the admin has a few more actions they can take.
 */
+
+
+
 export default function ItemsScreen({ navigation, route }) {
     React.useEffect(() => {
         navigation.setOptions({ headerTitle: ItemsHeader });
     }, [navigation]);
+    
+   
 
     const { userType } = route.params;
     console.log(JSON.stringify(userType));
@@ -23,8 +32,8 @@ export default function ItemsScreen({ navigation, route }) {
     const { signOut } = React.useContext(AuthContext);
 
     return (
-
-        <View>
+    <View style = {itemsStyles.container}>
+        <View style = {itemsStyles.content}>
             <FlatList data={items} renderItem={({ item }) => (
                 <ListItem item={item} navigation={navigation}></ListItem>
             )}>
@@ -34,7 +43,10 @@ export default function ItemsScreen({ navigation, route }) {
                 <Text style={globalStyles.loginNavText}>Signout</Text>
             </TouchableOpacity>
         </View>
+    </View>
+        
     );
+
 }
 
 function ItemsHeader() {
@@ -49,7 +61,10 @@ function ItemsHeader() {
     );
 };
 
+
+
 const itemsStyles = StyleSheet.create({
+
 });
 
 /* Test data to use without database */
