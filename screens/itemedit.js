@@ -142,10 +142,10 @@ export default function ItemEditScreen({ navigation, route }) {
                     Yes, delete
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.deleteConfirmationButton}
+                <TouchableOpacity style={styles.canceldeleteConfirmationButton}
                   onPress={() => setDeleteConfirmationShown(false)}
                 >
-                  <Text style={{ ...styles.deleteConfirmationButtonText, ...styles.deleteConfirmationText }}>
+                  <Text style={{ ...styles.canceldeleteConfirmationButtonText, ...styles.deleteConfirmationText }}>
                     Cancel
                   </Text>
                 </TouchableOpacity>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     width: "10%",
     aspectRatio: 1,
     borderRadius: 10000,
-    backgroundColor: "#d975d2",
+    backgroundColor: "rgb(213,83,66)",
     marginLeft: "1%",
   },
   incrementTextBox: {
@@ -194,14 +194,16 @@ const styles = StyleSheet.create({
   deleteConfirmation: {
     width: "100%",
     backgroundColor: "white",
-    marginTop: "auto",
-    borderTopColor: "#d975d2",
-    borderLeftColor: "#d975d2",
-    borderRightColor: "#d975d2",
-    borderBottomColor: "white",
+    marginTop: 350,
+    borderTopColor: "rgb(213,83,66)",
+    borderLeftColor: "rgb(213,83,66)",
+    borderRightColor: "rgb(213,83,66)",
+    borderBottomColor: "rgb(213,83,66)",
     borderWidth: 3,
     borderRadius: 10,
     alignItems: "center",
+    width: '90%',
+    alignSelf: 'center',
   },
   deleteConfirmationText: {
     fontSize: 18,
@@ -212,10 +214,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   deleteConfirmationButton: {
-    backgroundColor: "#d975d2",
+    backgroundColor: "rgb(213,83,66)",
     borderRadius: 10,
     marginBottom: 14,
     marginHorizontal: 8,
+  },
+  canceldeleteConfirmationButton: {
+    backgroundColor: "grey",
+    borderRadius: 10,
+    marginBottom: 14,
+    marginHorizontal: 8,
+  },
+  canceldeleteConfirmationButtonText: {
+    color: 'white'
   },
   deleteConfirmationButtonText: {
     color: "white",

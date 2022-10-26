@@ -7,7 +7,7 @@ export function TextBox({ label, suffix, placeholder, value, onChangeText, onEnd
 
   const styles = StyleSheet.create({
     boundingBox: {
-      borderColor: "#d975d2",
+      borderColor: "rgb(37,65,81)",
       borderWidth: 3,
       borderRadius: 10,
       height: 50,

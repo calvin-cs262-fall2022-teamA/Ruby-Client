@@ -50,7 +50,7 @@ const listItemStyles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 10,
     margin: 5,
-    borderColor: '#d975d2',
+    borderColor: 'rgb(37,65,81)',
     backgroundColor: '#d0d0d0',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -74,7 +74,7 @@ const listItemStyles = StyleSheet.create({
     height: '90%',
     aspectRatio: 1,
     borderRadius: 10000,
-    backgroundColor: "#d975d2",
+    backgroundColor: "rgb( 213,83,66)",
     marginLeft: "1%",
   },
   amountText: {
