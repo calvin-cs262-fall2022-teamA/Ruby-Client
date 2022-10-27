@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button, TextInput } from 'react-native';
+import { Text, View, Button, TextInput, ImageBackground } from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import { globalStyles } from '../../styles/global';
 
@@ -8,6 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function SignInScreen({navigation }) {
+  const backgroundImage = require("../../images/bearuby.jpg");
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -43,14 +44,15 @@ export default function SignInScreen({navigation }) {
   const { signIn } = React.useContext(AuthContext);
 
   return (
-    <View>
-      <TextInput
-        placeholder="Username"
+    <ImageBackground source={backgroundImage} resizeMode='repeat' style={globalStyles.image}>
+    <View style={globalStyles.loginBlock}>
+      <Text style={globalStyles.loginText}>Username: </Text>
+      <TextInput style={globalStyles.userCredentials}
         value={username}
         onChangeText={setUsername}
       />
-      <TextInput
-        placeholder="Password"
+      <Text style={globalStyles.loginText}>Password: </Text>
+      <TextInput style={globalStyles.userCredentials}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -63,11 +65,14 @@ export default function SignInScreen({navigation }) {
         <Text style={globalStyles.loginNavText }>Register</Text>
       </TouchableOpacity>
       {/* Temporary before database */}
+     <View style={globalStyles.loginButtons}>
       <RadioGroup
         radioButtons={radioButtons}
         onPress={onPressRadioButton}
       />
+      </View>
     </View>
+    </ImageBackground>
   );
 }
 
