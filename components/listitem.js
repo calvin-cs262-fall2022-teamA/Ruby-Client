@@ -5,7 +5,7 @@ import { TextBox } from "./textbox";
 import Icon from 'react-native-vector-icons/Entypo';
 
 /* A component used to display each item in the ItemsScreen */
-export default function ListItem({ item, navigation }) {
+export default function ListItem({ item, navigation, isAdmin }) {
 
   const [increment, setIncrement] = React.useState(item.defaultIncrement);
   const [amount, setAmount] = React.useState(item.amount);
@@ -33,11 +33,16 @@ export default function ListItem({ item, navigation }) {
           onChangeText={setIncrement}
         />
       </View>
-      <TouchableOpacity onPress={() =>
-        navigation.navigate("ItemEditScreen", item)
-      }>
-        <Icon name='edit' size={20}></Icon>
-      </TouchableOpacity>
+
+      {isAdmin ?
+        <TouchableOpacity onPress={() =>
+          navigation.navigate("ItemEditScreen", item)
+        }>
+          <Icon name='edit' size={20}></Icon>
+        </TouchableOpacity>
+        :
+        <View></View>
+      }
     </View>
   );
 }

@@ -35,7 +35,7 @@ export default function ItemsScreen({ navigation, route }) {
     <View style = {itemsStyles.container}>
         <View style = {itemsStyles.content}>
             <FlatList data={items} renderItem={({ item }) => (
-                <ListItem item={item} navigation={navigation}></ListItem>
+                <ListItem item={item} navigation={navigation} isAdmin={userType === "Admin"}></ListItem>
             )}>
             </FlatList>
             {/* // Temporary to test login features with different user views */}
