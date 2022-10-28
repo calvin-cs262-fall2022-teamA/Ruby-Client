@@ -67,6 +67,7 @@ export default function ItemEditScreen({ navigation, route }) {
           />
 
           {/* Increment Amount */}
+        
           <TouchableOpacity
             style={styles.incrementButton}
             onPress={() => {
@@ -169,22 +170,26 @@ const styles = StyleSheet.create({
   },
   amountRow: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    
+    
   },
   textBox: {
     width: "90%",
-    marginLeft: 5
+    marginLeft: 20,
   },
   amountTextBox: {
     width: "50%",
     marginRight: "2%",
+    
   },
   incrementButton: {
     width: "10%",
     aspectRatio: 1,
     borderRadius: 10000,
     backgroundColor: "rgb(213,83,66)",
-    marginLeft: "1%",
+    marginLeft: 2,
+    marginRight: 2,
     justifyContent: "center",
   },
   incrementTextBox: {
