@@ -17,7 +17,9 @@ import RegisterScreen from './screens/login/register';
 import ItemEditScreen from './screens/itemedit';
 import ItemsScreen from "./screens/items";
 import { AuthContext } from './states/auth';
+import { itemsContext } from './states/itemscontext';
 import Notifications from './screens/notifications';
+import { Item } from "./models/item";
 
 
 const Stack = createStackNavigator();
@@ -212,14 +214,46 @@ export default function App({ navigation }) {
     </AuthContext.Provider>
   );
 }
-function ItemEdit({ route, navigation }) {
+function ItemEdit({ route, navigation }) { //TODO: Put elsewhere
   const userType = route.params.userType;
+  const [items, setItems] = React.useState(
+    /* Test data to use without database */
+    [(new Item({
+      id: 1,
+      name: "Cups",
+      amount: 200,
+      defaultIncrement: 20,
+      minimumAmount: 10,
+    })),
+    (new Item({
+      id: 2,
+      name: "Forks",
+      amount: 300,
+      defaultIncrement: 10,
+      minimumAmount: 10,
+    })),
+    (new Item({
+      id: 3,
+      name: "Knives",
+      amount: 300,
+      defaultIncrement: 10,
+      minimumAmount: 10,
+    })),
+    (new Item({
+      id: 4,
+      name: "Spoons",
+      amount: 300,
+      defaultIncrement: 15,
+      minimumAmount: 10,
+    }))]);
+  const deleteItem = (id) => setItems(items.filter(i => i.id !== id));
 
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: userType }} />
-      <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
-
-    </Stack.Navigator>
+    <itemsContext.Provider value={{ items, deleteItem }}>
+      <Stack.Navigator>
+        <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: userType }} />
+        <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
+      </Stack.Navigator>
+    </itemsContext.Provider>
   );
 }

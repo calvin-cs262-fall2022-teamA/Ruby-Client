@@ -4,6 +4,7 @@ import { TextBox } from "../components/textbox";
 import Icon from 'react-native-vector-icons/Entypo';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../styles/global';
+import { itemsContext } from '../states/itemscontext';
 
 /* A screen used to edit an item in inventory */
 export default function ItemEditScreen({ navigation, route }) {
@@ -14,6 +15,8 @@ export default function ItemEditScreen({ navigation, route }) {
   const [defaultIncrement, setDefaultIncrement] = React.useState(item.defaultIncrement);
   const [minimumAmount, setMinimumAmount] = React.useState(item.minimumAmount);
   const [deleteConfirmationShown, setDeleteConfirmationShown] = React.useState(false);
+
+  const { items, deleteItem } = React.useContext(itemsContext);
 
   const header = (itemName, siteName) => (
     <View style={globalStyles.header}>
@@ -135,6 +138,7 @@ export default function ItemEditScreen({ navigation, route }) {
                   onPress={() => {
                     item.archive();
                     setDeleteConfirmationShown(false);
+                    deleteItem(item.id);
                     navigation.pop();
                   }}
                 >

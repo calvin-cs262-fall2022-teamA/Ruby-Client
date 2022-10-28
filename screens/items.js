@@ -3,12 +3,9 @@ import { View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
 import { globalStyles } from '../styles/global';
 import ListItem from '../components/listitem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Item } from "../models/item";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../states/auth';
-import { Notifications } from './notifications';
-
-
+import { itemsContext } from '../states/itemscontext';
 
 
 /*
@@ -22,6 +19,8 @@ export default function ItemsScreen({ navigation, route }) {
     React.useEffect(() => {
         navigation.setOptions({ headerTitle: ItemsHeader });
     }, [navigation]);
+
+    const { items, deleteItem } = React.useContext(itemsContext);
 
     /* Rerender when leaving edit screen to make sure any edits are reflected */
     const [refresh, refreshItems] = React.useState(false);
@@ -53,7 +52,7 @@ export default function ItemsScreen({ navigation, route }) {
             </View>
             <View style={itemsStyles.container}>
                 <View style={itemsStyles.content}>
-                    <FlatList data={allItems.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))}
+                    <FlatList data={items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))}
                         keyExtractor={(item) => `${item.name}:${item.amount}:${item.defaultIncrement}`} // TODO: also ID
                         renderItem={({ item }) => (
                             <ListItem item={item} navigation={navigation} isAdmin={userType === "Admin"}></ListItem>
@@ -65,7 +64,7 @@ export default function ItemsScreen({ navigation, route }) {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </View >
 
     );
 
@@ -105,29 +104,3 @@ const itemsStyles = StyleSheet.create({
         width: 20,
     }
 });
-
-/* Test data to use without database */
-const allItems = [(new Item({
-    name: "Cups",
-    amount: 200,
-    defaultIncrement: 20,
-    minimumAmount: 10,
-})),
-(new Item({
-    name: "Forks",
-    amount: 300,
-    defaultIncrement: 10,
-    minimumAmount: 10,
-})),
-(new Item({
-    name: "Knives",
-    amount: 300,
-    defaultIncrement: 10,
-    minimumAmount: 10,
-})),
-(new Item({
-    name: "Spoons",
-    amount: 300,
-    defaultIncrement: 15,
-    minimumAmount: 10,
-}))];
