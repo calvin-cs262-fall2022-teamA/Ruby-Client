@@ -26,14 +26,16 @@ export function TextBox({ label, suffix, placeholder, value, onChangeText, onEnd
       alignContent: "center"
     },
     input: {
-      width: suffix ? "75%" : "100%",
+      width: suffix ? "50%" : "100%",
       fontSize: 18,
     },
     suffix: {
       fontSize: 18,
-      width: suffix ? "25%" : "0%",
+      width: suffix ? "50%" : "0%",
       textAlign: "right",
-      paddingRight: 10
+      paddingRight: 10,
+      paddingLeft: 5,
+      textAlignVertical: "center",
     },
   });
 

@@ -16,21 +16,16 @@ import { Notifications } from './notifications';
     This screen is similar for both the admin and site logins,
     but the admin has a few more actions they can take.
 */
-
-
-
 export default function ItemsScreen({ navigation, route }) {
     const [searchText, setSearchText] = React.useState("");
-    const changeSearch = (text) => {
-        setSearchText(text);
-        setItems(allItems.filter(item => item.name.toLowerCase().includes(text.toLowerCase())));
-    };
-
-    const [items, setItems] = React.useState(allItems);
 
     React.useEffect(() => {
         navigation.setOptions({ headerTitle: ItemsHeader });
     }, [navigation]);
+
+    /* Rerender when leaving edit screen to make sure any edits are reflected */
+    const [refresh, refreshItems] = React.useState(false);
+    navigation.addListener("focus", () => refreshItems(!refresh));
 
     const { userType } = route.params;
     console.log(JSON.stringify(userType));
@@ -45,10 +40,10 @@ export default function ItemsScreen({ navigation, route }) {
                     <TextInput style={itemsStyles.searchBox}
                         value={searchText}
                         placeholder="Search..."
-                        onChangeText={changeSearch}
+                        onChangeText={setSearchText}
                     />
                     <TouchableOpacity style={itemsStyles.clearSearch}
-                        onPress={() => changeSearch("")}
+                        onPress={() => setSearchText("")}
                     >
                         {searchText === "" ? <View /> : <Icon name="close" size={20} color="#d55342"></Icon>}
                     </TouchableOpacity>
@@ -58,9 +53,11 @@ export default function ItemsScreen({ navigation, route }) {
             </View>
             <View style={itemsStyles.container}>
                 <View style={itemsStyles.content}>
-                    <FlatList data={items} renderItem={({ item }) => (
-                        <ListItem item={item} navigation={navigation} isAdmin={userType === "Admin"}></ListItem>
-                    )}>
+                    <FlatList data={allItems.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))}
+                        keyExtractor={(item) => `${item.name}:${item.amount}:${item.defaultIncrement}`} // TODO: also ID
+                        renderItem={({ item }) => (
+                            <ListItem item={item} navigation={navigation} isAdmin={userType === "Admin"}></ListItem>
+                        )}>
                     </FlatList>
                     {/* // Temporary to test login features with different user views */}
                     <TouchableOpacity style={globalStyles.loginNav} onPress={signOut}>
@@ -77,11 +74,10 @@ export default function ItemsScreen({ navigation, route }) {
 function ItemsHeader() {
     return (
         <View style={globalStyles.header}>
-            <Text style={globalStyles.headerText}>Item List</Text>
+            <Text style={globalStyles.headerText} numberOfLines={1}>Item List</Text>
         </View>
     );
 };
-
 
 
 const itemsStyles = StyleSheet.create({

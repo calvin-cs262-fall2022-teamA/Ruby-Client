@@ -17,7 +17,7 @@ export default function ItemEditScreen({ navigation, route }) {
 
   const header = (itemName, siteName) => (
     <View style={globalStyles.header}>
-      <Text style={globalStyles.headerText}>Edit {siteName}'s {itemName}</Text>
+      <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}'s {itemName}</Text>
       <View>
         <TouchableOpacity onPress={() => setDeleteConfirmationShown(true)}>
           <MaterialIcon name="delete" size={30}></MaterialIcon>
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: 10000,
     backgroundColor: "rgb(213,83,66)",
     marginLeft: "1%",
+    justifyContent: "center",
   },
   incrementTextBox: {
     marginLeft: "1%",
