@@ -4,6 +4,7 @@ import { TextBox } from "../components/textbox";
 import Icon from 'react-native-vector-icons/Entypo';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../styles/global';
+import { itemsContext } from '../states/itemscontext';
 
 /* A screen used to edit an item in inventory */
 export default function ItemEditScreen({ navigation, route }) {
@@ -15,9 +16,11 @@ export default function ItemEditScreen({ navigation, route }) {
   const [minimumAmount, setMinimumAmount] = React.useState(item.minimumAmount);
   const [deleteConfirmationShown, setDeleteConfirmationShown] = React.useState(false);
 
+  const { items, deleteItem } = React.useContext(itemsContext);
+
   const header = (itemName, siteName) => (
     <View style={globalStyles.header}>
-      <Text style={globalStyles.headerText}>Edit {siteName}'s {itemName}</Text>
+      <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}'s {itemName}</Text>
       <View>
         <TouchableOpacity onPress={() => setDeleteConfirmationShown(true)}>
           <MaterialIcon name="delete" size={30}></MaterialIcon>
@@ -135,6 +138,7 @@ export default function ItemEditScreen({ navigation, route }) {
                   onPress={() => {
                     item.archive();
                     setDeleteConfirmationShown(false);
+                    deleteItem(item.id);
                     navigation.pop();
                   }}
                 >
@@ -181,6 +185,7 @@ const styles = StyleSheet.create({
     borderRadius: 10000,
     backgroundColor: "rgb(213,83,66)",
     marginLeft: "1%",
+    justifyContent: "center",
   },
   incrementTextBox: {
     marginLeft: "1%",

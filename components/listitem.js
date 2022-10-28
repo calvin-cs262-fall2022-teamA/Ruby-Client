@@ -9,6 +9,7 @@ export default function ListItem({ item, navigation, isAdmin }) {
 
   const [increment, setIncrement] = React.useState(item.defaultIncrement);
   const [amount, setAmount] = React.useState(item.amount);
+
   return (
     <View style={listItemStyles.listItemBorder}>
       <Text style={listItemStyles.listItemText}>{item.name}</Text>
@@ -33,16 +34,17 @@ export default function ListItem({ item, navigation, isAdmin }) {
           onChangeText={setIncrement}
         />
       </View>
-
-      {isAdmin ?
-        <TouchableOpacity onPress={() =>
-          navigation.navigate("ItemEditScreen", item)
-        }>
-          <Icon name='edit' size={20}></Icon>
-        </TouchableOpacity>
-        :
-        <View></View>
-      }
+      <View style={listItemStyles.editWrapper}>
+        {isAdmin ?
+          <TouchableOpacity onPress={() =>
+            navigation.navigate("ItemEditScreen", item)
+          }>
+            <Icon name='edit' size={20}></Icon>
+          </TouchableOpacity>
+          :
+          <View></View>
+        }
+      </View>
     </View>
   );
 }
@@ -63,11 +65,10 @@ const listItemStyles = StyleSheet.create({
   listItemText: {
     fontSize: 18,
     fontWeight: 'bold',
-
+    width: "30%",
   },
   quantityText: {
     fontSize: 18,
-
   },
   editAmount: {
     flexDirection: 'row',
@@ -86,4 +87,9 @@ const listItemStyles = StyleSheet.create({
     width: "30%",
     marginRight: "2%",
   },
+  editWrapper: {
+    width: "30%",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+  }
 });

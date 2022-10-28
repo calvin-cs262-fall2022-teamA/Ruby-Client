@@ -2,7 +2,10 @@
   A class representing a certain item in stock (e.g. cups)
 */
 export class Item {
-  constructor({ name, amount, minimumAmount, defaultIncrement }) {
+  constructor({ id, name, amount, minimumAmount, defaultIncrement }) {
+    // A unique id
+    this.id = id;
+
     // What the item is called
     this.name = name;
 
