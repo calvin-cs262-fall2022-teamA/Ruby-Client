@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, Text } from 'react-native';
+import { View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
 import { globalStyles } from '../styles/global';
 import ListItem from '../components/listitem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -20,11 +20,17 @@ import { Notifications } from './notifications';
 
 
 export default function ItemsScreen({ navigation, route }) {
+    const [searchText, setSearchText] = React.useState("");
+    const changeSearch = (text) => {
+        setSearchText(text);
+        setItems(allItems.filter(item => item.name.toLowerCase().includes(text.toLowerCase())));
+    };
+
+    const [items, setItems] = React.useState(allItems);
+
     React.useEffect(() => {
         navigation.setOptions({ headerTitle: ItemsHeader });
     }, [navigation]);
-    
-   
 
     const { userType } = route.params;
     console.log(JSON.stringify(userType));
@@ -32,19 +38,38 @@ export default function ItemsScreen({ navigation, route }) {
     const { signOut } = React.useContext(AuthContext);
 
     return (
-    <View style = {itemsStyles.container}>
-        <View style = {itemsStyles.content}>
-            <FlatList data={items} renderItem={({ item }) => (
-                <ListItem item={item} navigation={navigation} isAdmin={userType === "Admin"}></ListItem>
-            )}>
-            </FlatList>
-            {/* // Temporary to test login features with different user views */}
-            <TouchableOpacity style={globalStyles.loginNav} onPress={signOut}>
-                <Text style={globalStyles.loginNavText}>Signout</Text>
-            </TouchableOpacity>
+        <View>
+            <View style={itemsStyles.searchAndFilterRow}>
+                <View style={itemsStyles.search}>
+                    <Icon name="search" size={30}></Icon>
+                    <TextInput style={itemsStyles.searchBox}
+                        value={searchText}
+                        placeholder="Search..."
+                        onChangeText={changeSearch}
+                    />
+                    <TouchableOpacity style={itemsStyles.clearSearch}
+                        onPress={() => changeSearch("")}
+                    >
+                        {searchText === "" ? <View /> : <Icon name="close" size={20} color="#d55342"></Icon>}
+                    </TouchableOpacity>
+                </View>
+                <Icon name="sort" size={30}></Icon>
+
+            </View>
+            <View style={itemsStyles.container}>
+                <View style={itemsStyles.content}>
+                    <FlatList data={items} renderItem={({ item }) => (
+                        <ListItem item={item} navigation={navigation} isAdmin={userType === "Admin"}></ListItem>
+                    )}>
+                    </FlatList>
+                    {/* // Temporary to test login features with different user views */}
+                    <TouchableOpacity style={globalStyles.loginNav} onPress={signOut}>
+                        <Text style={globalStyles.loginNavText}>Signout</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
-    </View>
-        
+
     );
 
 }
@@ -53,10 +78,6 @@ function ItemsHeader() {
     return (
         <View style={globalStyles.header}>
             <Text style={globalStyles.headerText}>Item List</Text>
-            <View style={globalStyles.headerIcons}>
-                <Icon name="sort" size={30}></Icon>
-                <Icon name="search" size={30}></Icon>
-            </View>
         </View>
     );
 };
@@ -64,11 +85,33 @@ function ItemsHeader() {
 
 
 const itemsStyles = StyleSheet.create({
-
+    searchAndFilterRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        backgroundColor: "white",
+        paddingBottom: 10,
+        paddingHorizontal: 10,
+    },
+    search: {
+        flexDirection: "row",
+        borderWidth: 2,
+        borderRadius: 10,
+        alignItems: "center",
+        paddingHorizontal: 5,
+    },
+    searchBox: {
+        marginLeft: 10,
+        fontSize: 18,
+        width: "60%",
+        flexGrow: 1,
+    },
+    clearSearch: {
+        width: 20,
+    }
 });
 
 /* Test data to use without database */
-const items = [(new Item({
+const allItems = [(new Item({
     name: "Cups",
     amount: 200,
     defaultIncrement: 20,

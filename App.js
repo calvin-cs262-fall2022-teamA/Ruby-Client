@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import HomeScreen from './screens/home';
@@ -149,79 +149,77 @@ export default function App({ navigation }) {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-          {state.isLoading ? (
-            <Stack.Navigator>
+        {state.isLoading ? (
+          <Stack.Navigator>
             {/* // We haven't finished checking for the token yet */}
             <Stack.Screen name="Splash" component={SplashScreen} />
           </Stack.Navigator>
-          ) : state.userToken == null ? (
-            // No token found, user isn't signed in
-            <Stack.Navigator>
-            
-              <Stack.Screen
-                name="SignIn"
-                component={SignInScreen}
-                options={{
-                  title: 'Sign in',
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? 'pop' : 'push',
-                }} />
-              <Stack.Screen
-                name="Register"
-                component={RegisterScreen}
-                options={{
-                  title: 'Register',
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? 'pop' : 'push',
-                }} />
-            
-            </Stack.Navigator>
-          ) : (
-            // User is signed in: Put all the app screens between the <> and </>
-            // This homescreen gives an example how to access state variables
-          
-              /* <Stack.Screen
-                name="HomeScreen"
-                component={HomeScreen}
-                initialParams={{ userToken: state.userToken }} /> */
-              /* <Stack.Screen name= "ItemEdit" component={ItemEdit}  /> */
-              <Tabs.Navigator
-              screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
-                  let iconName;
-      
-                  if (route.name === 'Item List') {
-                    iconName = 'now-widgets';
-                      
-                  } else if (route.name === 'Notifications') {
-                    iconName = 'notifications';
-                  }
-      
-                  // You can return any component that you like here!
-                  return <Icon name={iconName} size={size} color={color} />;
-                },
-                tabBarActiveTintColor: 'rgb(213,83,66)',
-                tabBarInactiveTintColor: 'gray',
-              })}>
-              <Tabs.Screen name= "Item List" component={ItemEdit} initialParams={{ userType: state.type }}/>
-              <Tabs.Screen name= "Notifications" component={Notifications} initialParams={{ userType: state.type }}/>
-              </Tabs.Navigator>
-              
-            
+        ) : state.userToken == null ? (
+          // No token found, user isn't signed in
+          <Stack.Navigator>
 
-          )}
-        
+            <Stack.Screen
+              name="SignIn"
+              component={SignInScreen}
+              options={{
+                title: 'Sign in',
+                // When logging out, a pop animation feels intuitive
+                animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+              }} />
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={{
+                title: 'Register',
+                // When logging out, a pop animation feels intuitive
+                animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+              }} />
+
+          </Stack.Navigator>
+        ) : (
+          // User is signed in: Put all the app screens between the <> and </>
+          // This homescreen gives an example how to access state variables
+
+          /* <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            initialParams={{ userToken: state.userToken }} /> */
+          /* <Stack.Screen name= "ItemEdit" component={ItemEdit}  /> */
+          <Tabs.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
+
+                if (route.name === 'Item List') {
+                  iconName = 'now-widgets';
+
+                } else if (route.name === 'Notifications') {
+                  iconName = 'notifications';
+                }
+
+                // You can return any component that you like here!
+                return <Icon name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: 'rgb(213,83,66)',
+              tabBarInactiveTintColor: 'gray',
+            })}>
+            <Tabs.Screen name="Item List" component={ItemEdit} initialParams={{ userType: state.type }} options={{ headerShown: false }} />
+            <Tabs.Screen name="Notifications" component={Notifications} initialParams={{ userType: state.type }} />
+          </Tabs.Navigator>
+        )}
+
       </NavigationContainer>
     </AuthContext.Provider>
   );
 }
-function ItemEdit({route}){
+function ItemEdit({ route, navigation }) {
   const userType = route.params.userType;
+
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: userType }}/>
-      <Stack.Screen name = "ItemEditScreen" component={ItemEditScreen}/>
-      
+      <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: userType }} />
+      <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
+
     </Stack.Navigator>
   );
 }
