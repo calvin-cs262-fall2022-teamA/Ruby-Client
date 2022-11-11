@@ -4,4 +4,6 @@ import React from 'react';
 export const itemsContext = React.createContext({
   items: [],
   deleteItem: (id) => { },
+  addItem: (item) => { },
+  saveItem: (id) => { },
 });

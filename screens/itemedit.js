@@ -16,7 +16,7 @@ export default function ItemEditScreen({ navigation, route }) {
   const [minimumAmount, setMinimumAmount] = React.useState(item.minimumAmount);
   const [deleteConfirmationShown, setDeleteConfirmationShown] = React.useState(false);
 
-  const { items, deleteItem } = React.useContext(itemsContext);
+  const { deleteItem, saveItem } = React.useContext(itemsContext);
 
   const header = (itemName, siteName) => (
     <View style={globalStyles.header}>
@@ -46,7 +46,9 @@ export default function ItemEditScreen({ navigation, route }) {
             setName(name);
           }}
           onEndEditing={() => {
-            item.trySave.bind(item)("name", name);
+            if (item.editProperty.bind(item)("name", name)) {
+              saveItem(item.id);
+            }
             setName(item.name);
           }}
         />
@@ -61,18 +63,21 @@ export default function ItemEditScreen({ navigation, route }) {
             keyboardType="numeric"
             onChangeText={setAmount}
             onEndEditing={() => {
-              item.trySave.bind(item)("amount", amount);
+              if (item.editProperty.bind(item)("amount", amount)) {
+                saveItem(item.id);
+              }
               setAmount(item.amount.toString());
             }}
           />
 
           {/* Increment Amount */}
-        
+
           <TouchableOpacity
             style={styles.incrementButton}
             onPress={() => {
               const incrementAsNumber = parseInt(increment);
-              if (!isNaN(incrementAsNumber) && item.trySave("amount", item.amount + incrementAsNumber)) {
+              if (!isNaN(incrementAsNumber) && item.editProperty("amount", item.amount + incrementAsNumber)) {
+                saveItem(item.id);
                 setAmount(item.amount.toString());
               }
             }}>
@@ -82,7 +87,8 @@ export default function ItemEditScreen({ navigation, route }) {
             style={styles.incrementButton}
             onPress={() => {
               const incrementAsNumber = parseInt(increment);
-              if (!isNaN(incrementAsNumber) && item.trySave("amount", item.amount - incrementAsNumber)) {
+              if (!isNaN(incrementAsNumber) && item.editProperty("amount", item.amount - incrementAsNumber)) {
+                saveItem(item.id);
                 setAmount(item.amount.toString());
               }
             }}>
@@ -106,7 +112,9 @@ export default function ItemEditScreen({ navigation, route }) {
           keyboardType="numeric"
           onChangeText={setDefaultIncrement}
           onEndEditing={() => {
-            item.trySave.bind(item)("defaultIncrement", defaultIncrement);
+            if (item.editProperty.bind(item)("defaultIncrement", defaultIncrement)) {
+              saveItem(item.id);
+            }
             setDefaultIncrement(item.defaultIncrement.toString());
           }}
         />
@@ -120,7 +128,9 @@ export default function ItemEditScreen({ navigation, route }) {
           keyboardType="numeric"
           onChangeText={setMinimumAmount}
           onEndEditing={() => {
-            item.trySave.bind(item)("minimumAmount", minimumAmount);
+            if (item.editProperty.bind(item)("minimumAmount", minimumAmount)) {
+              saveItem(item.id);
+            }
             setMinimumAmount(item.minimumAmount.toString());
           }}
         />
@@ -171,8 +181,6 @@ const styles = StyleSheet.create({
   amountRow: {
     flexDirection: "row",
     alignItems: "center",
-    
-    
   },
   textBox: {
     width: "90%",
@@ -181,10 +189,10 @@ const styles = StyleSheet.create({
   amountTextBox: {
     width: "50%",
     marginRight: "2%",
-    
+
   },
   incrementButton: {
-    width: "10%",
+    height: 50,
     aspectRatio: 1,
     borderRadius: 10000,
     backgroundColor: "rgb(213,83,66)",

@@ -4,31 +4,28 @@
 export class Item {
   constructor({ id, name, amount, minimumAmount, defaultIncrement }) {
     // A unique id
-    this.id = id;
+    this.id = id || 0;
 
     // What the item is called
-    this.name = name;
+    this.name = name || "";
 
     // How much of the item is currently in stock
-    this.amount = amount;
+    this.amount = amount || 0;
 
     // The amount at which a low inventory notification should be sent
-    this.minimumAmount = minimumAmount;
+    this.minimumAmount = minimumAmount || 0;
 
     // The default number of items added or removed at one time
-    this.defaultIncrement = defaultIncrement;
+    this.defaultIncrement = defaultIncrement || 1;
   }
 
   /*
-    Attempts to set the specified property and save.
+    Edits a property and returns whether the resulting item is valid.
     If the property is not valid (i.e. value is not a number when it should be),
     false is returned.
   */
-  trySave(propertyName, value) {
+  editProperty(propertyName, value) {
     if (propertyName === "name") {
-      if (value === "") {
-        return false;
-      }
       this.name = value;
     }
     else { // numeric properties
@@ -52,23 +49,15 @@ export class Item {
       };
     }
 
-    this.save();
     return true;
   }
 
-  /*
-    Saves the item to the database.
-  */
-  save() {
-    console.log(`Saving! name=${this.name} amount=${this.amount} minimumAmount=${this.minimumAmount} defaultIncrement=${this.defaultIncrement}`);
-    // TODO: save in database
-  }
 
   /*
     Archives the item (shown in UI as "delete")
   */
   archive() {
-    console.log(`Archiving! name=${this.name}`);
+    console.log(`Archiving! id=${this.id} name=${this.name}`);
     // TODO: archive in database
   }
 }
