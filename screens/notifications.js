@@ -1,21 +1,31 @@
 import React from 'react';
 import { View, Button, FlatList, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { itemsContext } from '../states/itemscontext';
 
 
-export default function Notifications({navigation, route}) {
+export default function Notifications({ navigation, route }) {
+
+  const noitifyItem = [];
+  const { items } = React.useContext(itemsContext);
+
+  for (let item of items) {
+    if (item.amount <= item.minimumAmount) {
+      noitifyItem.push(item);
+    }
+  }
 
 
   return (
     <View style={notifStyles.notifPage}>
       <View style={notifStyles.notifObj}>
         <Icon name="priority-high" size={35} style={notifStyles.notifIcon}></Icon>
-      
+
         <View style={notifStyles.notifContainer}>
-           <Text style={notifStyles.notifText}>The intentory of an Item is too low. Restock Soon.</Text>
+          <Text style={notifStyles.notifText}>The intentory of an Item is too low. Restock Soon.</Text>
         </View>
       </View>
-      
+
     </View>
   );
 }
@@ -35,7 +45,7 @@ const notifStyles = StyleSheet.create({
     borderRadius: 25,
     marginLeft: 0,
     marginRight: 0,
-    marginVertical: 0, 
+    marginVertical: 0,
 
   },
   notifObj: {
@@ -57,14 +67,14 @@ const notifStyles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: 'rgb(255, 0, 102)',
     borderRadius: 25,
-    
+
   },
   notifText: {
     padding: 5,
-    marginLeft:"2%",
+    marginLeft: "2%",
     color: 'white',
     fontSize: 15,
-    
+
   }
 
 
