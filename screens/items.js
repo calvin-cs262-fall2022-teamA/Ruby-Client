@@ -68,7 +68,7 @@ export default function ItemsScreen({ navigation, route }) {
                 isAdmin ?
                     <TouchableOpacity style={itemsStyles.addButton}
                         onPress={() => {
-                            const newItem = new Item({});
+                            const newItem = new Item({ name: "Unnamed Items" });
                             addItem(newItem);
                             navigation.navigate("ItemEditScreen", newItem);
                         }}>

@@ -26,6 +26,10 @@ export class Item {
   */
   editProperty(propertyName, value) {
     if (propertyName === "name") {
+      value = value.trim();
+      if (value === "") {
+        return false;
+      }
       this.name = value;
     }
     else { // numeric properties
