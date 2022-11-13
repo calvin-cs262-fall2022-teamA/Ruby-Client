@@ -78,8 +78,8 @@ export default function ItemEditScreen({ navigation, route }) {
               const incrementAsNumber = parseInt(increment);
               if (!isNaN(incrementAsNumber) && item.editProperty("amount", item.amount + incrementAsNumber)) {
                 saveItem(item.id);
-                setAmount(item.amount.toString());
               }
+              setAmount(item.amount.toString());
             }}>
             <Icon name="plus" style={globalStyles.incrementButtonText}></Icon>
           </TouchableOpacity>
@@ -89,8 +89,8 @@ export default function ItemEditScreen({ navigation, route }) {
               const incrementAsNumber = parseInt(increment);
               if (!isNaN(incrementAsNumber) && item.editProperty("amount", item.amount - incrementAsNumber)) {
                 saveItem(item.id);
-                setAmount(item.amount.toString());
               }
+              setAmount(item.amount.toString());
             }}>
             <Icon name="minus" style={globalStyles.incrementButtonText}></Icon>
           </TouchableOpacity>

@@ -1,6 +1,6 @@
-/*
-  A class representing a certain item in stock (e.g. cups)
-*/
+/**
+ *  A class representing a certain item in stock (e.g. cups)
+ */
 export class Item {
   constructor({ id, name, amount, minimumAmount, defaultIncrement }) {
     // A unique id
@@ -19,11 +19,13 @@ export class Item {
     this.defaultIncrement = defaultIncrement || 1;
   }
 
-  /*
-    Edits a property and returns whether the resulting item is valid.
-    If the property is not valid (i.e. value is not a number when it should be),
-    false is returned.
-  */
+  /**
+   * Edits a property and returns whether the resulting item is valid.
+   *
+   * @param {string} propertyName - The name of the property being set
+   * @param {string | number} value - The value of the property being set
+   * @returns - True if the property is valid, false if it isn't.
+   */
   editProperty(propertyName, value) {
     if (propertyName === "name") {
       value = value.trim();
@@ -40,27 +42,39 @@ export class Item {
 
       switch (propertyName) {
         case ("amount"):
+          if (valueAsNumber < 0) {
+            this.amount = 0;
+            return false;
+          }
           this.amount = valueAsNumber;
           break;
         case ("minimumAmount"):
+          if (valueAsNumber < 0) {
+            this.minimumAmount = 0;
+            return false;
+          }
           this.minimumAmount = valueAsNumber;
           break;
         case ("defaultIncrement"):
+          if (valueAsNumber < 0) {
+            this.defaultIncrement = 0;
+            return false;
+          }
           this.defaultIncrement = valueAsNumber;
           break;
         default:
           return false;
-      };
+      }
     }
 
     return true;
   }
 
-
-  /*
-    Archives the item (shown in UI as "delete")
-  */
+  /**
+   * Archives the item (shown in UI as "delete")
+   */
   archive() {
+    // TODO: move this function to itemsContext
     console.log(`Archiving! id=${this.id} name=${this.name}`);
     // TODO: archive in database
   }
