@@ -10,6 +10,7 @@ export default function Notifications({ navigation, route }) {
   const { items } = React.useContext(itemsContext);
 
   for (let item of items) {
+    console.log({ item })
     if (item.amount <= item.minimumAmount) {
       notifyItem.push(item);
     }
@@ -18,12 +19,14 @@ export default function Notifications({ navigation, route }) {
 
   return (
     <View style={notifStyles.notifPage}>
-      <FlatList data={notifyItem.pop(item)}
+      <FlatList data={notifyItem}
         keyExtractor={(item) => `${item.name}:${item.amount}`} // TODO: also ID
         renderItem={({ item }) => (
-          <NotificationItem item={item} navigation={navigation}></NotificationItem>
+          <NotificationItem item={item} ></NotificationItem>
         )}>
       </FlatList>
+      <Text> {items.length}</Text>
+
     </View>
   );
 }

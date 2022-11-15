@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 /* A component used to display each item in the ItemsScreen */
-export default function NotificationItem({ item, navigation }) {
+export default function NotificationItem({ item }) {
 
 
 
