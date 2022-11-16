@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 export default function NotificationItem({ item, amount }) {
 
 
-
     return (
         <View style={NotificationItemStyles.notifObj}>
             <Icon name="priority-high" size={35} style={NotificationItemStyles.notifIcon}></Icon>

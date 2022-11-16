@@ -11,13 +11,16 @@ export default function Notifications({ navigation, route }) {
 
   const getNotifications = async () => {
     try {
-      const response = await fetch('https://be-a-ruby.herokuapp.com/notifications')
+      const response = await fetch('https://www.googleapis.com/books/v1/volumes?q=jane%20austen')
+      // console.log(response);
       const json = await response.json();
+      // console.log(json.items);
       setData(json.items);
     } catch (error) {
-
+      // console.log(error)
     } finally {
       setLoading(false);
+
     }
   }
 
@@ -28,11 +31,12 @@ export default function Notifications({ navigation, route }) {
   return (
     <View style={notifStyles.notifPage}>
       <FlatList data={data}
-        keyExtractor={({ id }) => id} // TODO: also ID
+        keyExtractor={({ id }, index) => id} // TODO: also ID
         renderItem={({ item }) => (
-          <NotificationItem name={item.iname} amount={item.quantity}></NotificationItem>
-        )}>
-      </FlatList>
+          <Text>{item.volumeInfo.title}</Text>
+          // <NotificationItem name={item.volumeInfo.title} amount={item.volumeInfo.authors}></NotificationItem>
+        )}
+      />
     </View>
   );
 }
