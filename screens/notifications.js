@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Button, FlatList, StyleSheet, Text } from 'react-native';
 import { itemsContext } from '../states/itemscontext';
 import { NotificationItem } from '../components/notificationItem';
@@ -6,27 +6,33 @@ import { NotificationItem } from '../components/notificationItem';
 
 export default function Notifications({ navigation, route }) {
 
-  const notifyItem = [];
-  const { items } = React.useContext(itemsContext);
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
-  for (let item of items) {
-    console.log({ item })
-    if (item.amount <= item.minimumAmount) {
-      notifyItem.push(item);
+  const getNotifications = async () => {
+    try {
+      const response = await fetch('https://be-a-ruby.herokuapp.com/notifications')
+      const json = await response.json();
+      setData(json.items);
+    } catch (error) {
+
+    } finally {
+      setLoading(false);
     }
   }
 
+  useEffect(() => {
+    getNotifications();
+  }, []);
 
   return (
     <View style={notifStyles.notifPage}>
-      <FlatList data={notifyItem}
-        keyExtractor={(item) => `${item.name}:${item.amount}`} // TODO: also ID
+      <FlatList data={data}
+        keyExtractor={({ id }) => id} // TODO: also ID
         renderItem={({ item }) => (
-          <NotificationItem item={item} ></NotificationItem>
+          <NotificationItem name={item.iname} amount={item.quantity}></NotificationItem>
         )}>
       </FlatList>
-      <Text> {items.length}</Text>
-
     </View>
   );
 }
