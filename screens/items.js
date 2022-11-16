@@ -7,6 +7,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { AuthContext } from '../states/auth';
 import { itemsContext } from '../states/itemscontext';
 import { Item } from "../models/item";
+import { ActionButton } from '../components/actionbutton';
 
 
 /*
@@ -66,14 +67,14 @@ export default function ItemsScreen({ navigation, route }) {
             {/* Add item floating button */}
             {
                 isAdmin ?
-                    <TouchableOpacity style={itemsStyles.addButton}
+                    <ActionButton style={itemsStyles.addButton}
+                        iconName="plus"
                         onPress={() => {
                             const newItem = new Item({ name: "Unnamed Items" });
                             addItem(newItem);
                             navigation.navigate("ItemEditScreen", newItem);
                         }}>
-                        <Icon name="plus" style={itemsStyles.addButtonIcon}></Icon>
-                    </TouchableOpacity >
+                    </ActionButton >
                     :
                     <View></View>
             }
@@ -117,17 +118,9 @@ const itemsStyles = StyleSheet.create({
     },
     addButton: {
         position: "absolute",
-        backgroundColor: "rgb(213,83,66)",
         width: 60,
         height: 60,
-        borderRadius: 30,
         bottom: 20,
         right: 20,
-        justifyContent: 'center',
     },
-    addButtonIcon: {
-        color: "white",
-        textAlign: "center",
-        fontSize: 50,
-    }
 });

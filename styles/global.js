@@ -1,14 +1,8 @@
 import { StyleSheet } from 'react-native';
 
 export const globalStyles = StyleSheet.create({
-  incrementButtonText: {
-    textAlign: "center",
-    color: "#fff",
-    fontSize: 40,
-  },
   image: {
     flex: 1,
-
   },
   loginBlock: {
     padding: 15,

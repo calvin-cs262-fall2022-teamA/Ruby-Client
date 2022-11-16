@@ -1,10 +1,10 @@
 import React from "react";
 import { Keyboard, KeyboardAvoidingView, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { TextBox } from "../components/textbox";
-import Icon from 'react-native-vector-icons/Entypo';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../styles/global';
 import { itemsContext } from '../states/itemscontext';
+import { ActionButton } from "../components/actionbutton";
 
 /* A screen used to edit an item in inventory */
 export default function ItemEditScreen({ navigation, route }) {
@@ -72,7 +72,8 @@ export default function ItemEditScreen({ navigation, route }) {
 
           {/* Increment Amount */}
 
-          <TouchableOpacity
+          <ActionButton
+            iconName="plus"
             style={styles.incrementButton}
             onPress={() => {
               const incrementAsNumber = parseInt(increment);
@@ -80,10 +81,10 @@ export default function ItemEditScreen({ navigation, route }) {
                 saveItem(item.id);
               }
               setAmount(item.amount.toString());
-            }}>
-            <Icon name="plus" style={globalStyles.incrementButtonText}></Icon>
-          </TouchableOpacity>
-          <TouchableOpacity
+            }}
+          />
+          <ActionButton
+            iconName="minus"
             style={styles.incrementButton}
             onPress={() => {
               const incrementAsNumber = parseInt(increment);
@@ -91,9 +92,8 @@ export default function ItemEditScreen({ navigation, route }) {
                 saveItem(item.id);
               }
               setAmount(item.amount.toString());
-            }}>
-            <Icon name="minus" style={globalStyles.incrementButtonText}></Icon>
-          </TouchableOpacity>
+            }}
+          />
 
           <TextBox style={{ ...styles.textBox, ...styles.incrementTextBox }}
             value={increment}
@@ -192,13 +192,9 @@ const styles = StyleSheet.create({
 
   },
   incrementButton: {
-    height: 50,
-    aspectRatio: 1,
-    borderRadius: 10000,
-    backgroundColor: "rgb(213,83,66)",
+    width: "10%",
     marginLeft: 2,
     marginRight: 2,
-    justifyContent: "center",
   },
   incrementTextBox: {
     marginLeft: "1%",

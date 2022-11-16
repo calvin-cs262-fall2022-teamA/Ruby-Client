@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { globalStyles } from '../styles/global';
 import { TextBox } from "./textbox";
 import Icon from 'react-native-vector-icons/Entypo';
 import { itemsContext } from '../states/itemscontext';
+import { ActionButton } from './actionbutton';
 
 /* A component used to display each item in the ItemsScreen */
 export default function ListItem({ item, navigation, isAdmin }) {
@@ -18,8 +18,9 @@ export default function ListItem({ item, navigation, isAdmin }) {
       <View style={listItemStyles.editAmount}>
         <Text style={listItemStyles.quantityText}>{amount}</Text>
 
-        <TouchableOpacity
+        <ActionButton
           style={listItemStyles.subtractButton}
+          iconName="minus"
           onPress={() => {
             const incrementAsNumber = parseInt(increment);
             if (!isNaN(incrementAsNumber) && item.editProperty("amount", item.amount - incrementAsNumber)) {
@@ -27,8 +28,7 @@ export default function ListItem({ item, navigation, isAdmin }) {
             }
             setAmount(item.amount.toString());
           }}>
-          <Icon name="minus" style={globalStyles.incrementButtonText}></Icon>
-        </TouchableOpacity>
+        </ActionButton>
 
         <TextBox style={listItemStyles.amountText}
           value={increment}
@@ -82,10 +82,7 @@ const listItemStyles = StyleSheet.create({
   subtractButton: {
     height: 50,
     aspectRatio: 1,
-    borderRadius: 10000,
-    backgroundColor: "rgb( 213,83,66)",
     marginLeft: "1%",
-    justifyContent: "center",
   },
   amountText: {
     width: "30%",
