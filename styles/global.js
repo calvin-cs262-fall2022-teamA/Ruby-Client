@@ -9,11 +9,11 @@ export const globalStyles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    
+
   },
-  
+
   loginBlock: {
-    padding: 15, 
+    padding: 15,
     backgroundColor: 'white',
     opacity: 0.95,
     borderRadius: 20,
@@ -31,10 +31,10 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   userCredentials: {
-    padding: 10,
+    padding: 0,
     width: '90%',
-    borderWidth: 1, 
-    borderRadius: 25,
+    borderWidth: 1,
+    borderRadius: 5,
     marginTop: 5,
     marginHorizontal: 10,
     borderColor: 'grey',
@@ -65,7 +65,7 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'grey',
-    
+
   },
   header: {
     flexDirection: 'row',

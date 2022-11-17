@@ -103,7 +103,19 @@ export default function App({ navigation }) {
         // In a production app, we need to send some data (usually username, password) to server and get a token
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
-        // In the example, we'll use a dummy token
+        // var req;
+        // Request user type for person
+        // fetch('https://be-a-ruby.herokuapp.com/usertype/${data.username}/${data.password}')
+        //   .then((response) => req = response)
+        //   // .then((data) => {
+        //   //   req = data;
+        //   //   console.log('Success:', data);
+        //   // })
+        //   .catch((error) => {
+        //     console.error('Error:', error);
+        //   });
+
+        // console.log(req);
 
         // Only have 1 password stored in secure storage for now, switch
         let username, password
@@ -135,7 +147,13 @@ export default function App({ navigation }) {
         dispatch({ type: 'SIGN_OUT' })
       },
       register: async (data) => {
-        // Eventually call server API to save login
+        // Verify unique login
+
+        // hash username with hard coded salt (update later)
+
+        // Post username if unique else notify 
+
+        // Save login for future
         SecureStore.setItemAsync('username', data.username);
         SecureStore.setItemAsync('password', data.password);
 
