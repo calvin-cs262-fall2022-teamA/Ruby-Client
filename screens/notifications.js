@@ -14,7 +14,7 @@ export default function Notifications() {
       const response = await fetch('https://be-a-ruby.herokuapp.com/notifications')
       // console.log(response);
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       setData(json);
     } catch (error) {
       console.log(error)
