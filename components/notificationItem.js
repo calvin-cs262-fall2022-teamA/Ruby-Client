@@ -10,7 +10,7 @@ export default function NotificationItem({ item, amount }) {
         <View style={NotificationItemStyles.notifObj}>
             <Icon name="priority-high" size={35} style={NotificationItemStyles.notifIcon}></Icon>
             <View style={NotificationItemStyles.notifContainer}>
-                <Text style={NotificationItemStyles.notifText}>The intentory of {item} is {amount}. Restock Soon.</Text>
+                <Text style={NotificationItemStyles.notifText}>You only have {amount} {item} left. Restocking is recommended</Text>
             </View>
         </View>
     );

@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { View, Button, FlatList, StyleSheet, Text } from 'react-native';
+import { View, Button, FlatList, StyleSheet, Text, ActivityIndicator } from 'react-native';
 import { itemsContext } from '../states/itemscontext';
-import { NotificationItem } from '../components/notificationItem';
+import NotificationItem from '../components/notificationItem';
 
 
-export default function Notifications({ navigation, route }) {
+export default function Notifications() {
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   const getNotifications = async () => {
     try {
-      const response = await fetch('https://www.googleapis.com/books/v1/volumes?q=jane%20austen')
+      const response = await fetch('https://be-a-ruby.herokuapp.com/notifications')
       // console.log(response);
       const json = await response.json();
-      // console.log(json.items);
-      setData(json.items);
+      console.log(json);
+      setData(json);
     } catch (error) {
-      // console.log(error)
+      console.log(error)
     } finally {
       setLoading(false);
 
@@ -30,13 +30,15 @@ export default function Notifications({ navigation, route }) {
 
   return (
     <View style={notifStyles.notifPage}>
-      <FlatList data={data}
-        keyExtractor={({ id }, index) => id} // TODO: also ID
-        renderItem={({ item }) => (
-          <Text>{item.volumeInfo.title}</Text>
-          // <NotificationItem name={item.volumeInfo.title} amount={item.volumeInfo.authors}></NotificationItem>
-        )}
-      />
+      {isLoading ? <ActivityIndicator /> : (
+        <FlatList data={data}
+          keyExtractor={(item) => `${item.name}:${item.quantity}`} // TODO: also ID
+          renderItem={({ item }) => (
+            // <Text>{item.iname} {item.quantity}</Text>
+            <NotificationItem item={item.iname} amount={item.quantity}></NotificationItem>
+          )}>
+        </FlatList>
+      )}
     </View>
   );
 }
