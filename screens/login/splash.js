@@ -1,16 +1,15 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-
-// import { globalStyles } from '../styles/global';
+import { ImageBackground } from 'react-native';
+import { globalStyles } from '../../styles/global';
 
 /**
- * 
+ *
  * @returns Component with loading text
  */
 export default function SplashScreen() {
+  const backgroundImage = require("../../assets/splash.png");
+
   return (
-    <View>
-      <Text>Loading...</Text>
-    </View>
+    <ImageBackground source={backgroundImage} resizeMode="center" style={globalStyles.image} />
   );
 }

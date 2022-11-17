@@ -10,16 +10,16 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import HomeScreen from './screens/home';
 import SplashScreen from './screens/login/splash';
 import SignInScreen from './screens/login/login';
 import RegisterScreen from './screens/login/register';
 import ItemEditScreen from './screens/itemedit';
 import ItemsScreen from "./screens/items";
 import { AuthContext } from './states/auth';
-import { itemsContext } from './states/itemscontext';
+import { ItemsContext } from './states/itemscontext';
 import Notifications from './screens/notifications';
 import { Item } from "./models/item";
+import { ItemsStack } from './stacks/itemsstack';
 
 
 const Stack = createStackNavigator();
@@ -205,67 +205,12 @@ export default function App({ navigation }) {
               tabBarActiveTintColor: 'rgb(213,83,66)',
               tabBarInactiveTintColor: 'gray',
             })}>
-            <Tabs.Screen name="Item List" component={ItemEdit} initialParams={{ userType: state.type }} options={{ headerShown: false }} />
+            <Tabs.Screen name="Item List" component={ItemsStack} initialParams={{ userType: state.type, username: state.userToken }} options={{ headerShown: false }} />
             <Tabs.Screen name="Notifications" component={Notifications} initialParams={{ userType: state.type }} />
           </Tabs.Navigator>
         )}
 
       </NavigationContainer>
     </AuthContext.Provider>
-  );
-}
-function ItemEdit({ route, navigation }) { //TODO: Put elsewhere
-  const userType = route.params.userType;
-  const [items, setItems] = React.useState(
-    /* Test data to use without database */
-    [(new Item({
-      id: 1,
-      name: "Cups",
-      amount: 200,
-      defaultIncrement: 20,
-      minimumAmount: 10,
-    })),
-    (new Item({
-      id: 2,
-      name: "Forks",
-      amount: 300,
-      defaultIncrement: 10,
-      minimumAmount: 10,
-    })),
-    (new Item({
-      id: 3,
-      name: "Knives",
-      amount: 300,
-      defaultIncrement: 10,
-      minimumAmount: 10,
-    })),
-    (new Item({
-      id: 4,
-      name: "Spoons",
-      amount: 300,
-      defaultIncrement: 15,
-      minimumAmount: 10,
-    }))]);
-  const deleteItem = (id) => setItems(items.filter(i => i.id !== id));
-  const addItem = (item) => {
-    // TODO: Add item to database and get ID
-    item.id = Math.floor(Math.random() * 1000); // TODO: remove
-    items.unshift(item);
-    setItems(items);
-  };
-  const saveItem = (id) => {
-    const item = items.find(i => i.id === id);
-    console.log(`Saving! id=${item.id} name=${item.name} amount=${item.amount} minimumAmount=${item.minimumAmount} defaultIncrement=${item.defaultIncrement}`);
-    // TODO: save item in database
-    setItems(items);
-  };
-
-  return (
-    <itemsContext.Provider value={{ items, deleteItem, addItem, saveItem }}>
-      <Stack.Navigator>
-        <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: userType }} />
-        <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />
-      </Stack.Navigator>
-    </itemsContext.Provider>
   );
 }

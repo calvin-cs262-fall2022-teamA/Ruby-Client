@@ -67,6 +67,7 @@ export const globalStyles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
+    textAlignVertical: 'center',
   },
   headerIcons: {
     flexDirection: 'row',
