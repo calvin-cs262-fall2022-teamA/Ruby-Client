@@ -78,7 +78,8 @@ export default function ItemEditScreen({ navigation, route }) {
 
           {/* Increment Amount */}
 
-          <TouchableOpacity
+          <ActionButton
+            iconName="plus"
             style={styles.incrementButton}
             onPress={() => {
               const incrementAsNumber = parseInt(increment);
