@@ -26,10 +26,10 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   userCredentials: {
-    padding: 10,
+    padding: 0,
     width: '90%',
     borderWidth: 1,
-    borderRadius: 25,
+    borderRadius: 5,
     marginTop: 5,
     marginHorizontal: 10,
     borderColor: 'grey',

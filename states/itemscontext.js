@@ -33,7 +33,6 @@ export function ItemsProvider({ children, username }) {
    * Fetches and sets the items and trailers for the current user.
    */
   const fetchItemsAndTrailers = async () => {
-    console.log(`Fetching items and trailers for username=${username}`);
     try {
       const response = await fetch(`https://be-a-ruby.herokuapp.com/traileritems/${username}`);
       const json = await response.json();
@@ -60,7 +59,6 @@ export function ItemsProvider({ children, username }) {
    * @param {int} id - the id of the item to delete
    */
   const deleteItem = (id) => {
-    console.log(`Deleting! id=${id}`);
     try {
       fetch('https://be-a-ruby.herokuapp.com/items', {
         method: "DELETE",
@@ -106,7 +104,6 @@ export function ItemsProvider({ children, username }) {
   const saveItem = (id) => {
     const item = items.find(i => i.id === id);
     setItems(items);
-    console.log(`Saving! id=${item.id} name=${item.name} amount=${item.amount} minimumAmount=${item.minimumAmount} defaultIncrement=${item.defaultIncrement}`);
     try {
       fetch('https://be-a-ruby.herokuapp.com/items', {
         method: "PUT",
