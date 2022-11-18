@@ -26,7 +26,7 @@ export class Item {
   }
 
   /**
-   * Attempts to edit a property and returns whether the resulting item has been changed.
+   * Attempts to edit a property and returns whether the item has been changed.
    *
    * @param {string} propertyName - The name of the property being set
    * @param {string | number} value - The value of the property being set

@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
 
+/**
+ * Styles used shared between components in the app
+ */
 export const globalStyles = StyleSheet.create({
   image: {
     flex: 1,

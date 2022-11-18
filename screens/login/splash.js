@@ -3,8 +3,9 @@ import { ImageBackground } from 'react-native';
 import { globalStyles } from '../../styles/global';
 
 /**
+ * Splash screen to display while checking if the user is logged in
  *
- * @returns Component with loading text
+ * @returns a component showing the splash screen
  */
 export default function SplashScreen() {
   const backgroundImage = require("../../assets/splash.png");

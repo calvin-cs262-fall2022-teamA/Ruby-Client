@@ -10,11 +10,14 @@ import { ActionButton } from '../components/actionbutton';
 import { ModalSelector } from '../components/modalselector';
 
 
-/*
-    A screen that lists the items in inventory.
-    This screen is similar for both the admin and site logins,
-    but the admin has a few more actions they can take.
-*/
+/**
+ * A screen that lists the items in inventory.
+ * This screen is similar for both the admin and site logins,
+ * but the admin has a few more actions they can take.
+ *
+ * @returns the item screen component
+ */
+
 export default function ItemsScreen({ navigation, route }) {
     const { items, trailers, addItem, fetchItemsAndTrailers, sortItems } = React.useContext(ItemsContext);
 

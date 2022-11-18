@@ -186,8 +186,6 @@ const styles = StyleSheet.create({
   amountRow: {
     flexDirection: "row",
     alignItems: "center",
-
-
   },
   textBox: {
     width: "90%",
@@ -196,7 +194,6 @@ const styles = StyleSheet.create({
   amountTextBox: {
     width: "50%",
     marginRight: "2%",
-
   },
   incrementButton: {
     width: "10%",
