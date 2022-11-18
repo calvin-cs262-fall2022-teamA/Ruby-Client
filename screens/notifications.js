@@ -3,15 +3,19 @@ import { View, Button, FlatList, StyleSheet, Text, ActivityIndicator } from 'rea
 import { itemsContext } from '../states/itemscontext';
 import NotificationItem from '../components/notificationItem';
 
-
+/**
+ * 
+ * @returns Notification screen with alerts of items whose levels are below notification level
+ */
 export default function Notifications() {
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   const getNotifications = async () => {
     try {
-      const response = await fetch('https://be-a-ruby.herokuapp.com/notifications')
+      const response = await fetch('https://be-a-ruby.herokuapp.com/notifications') //fetch the database notifications
       // console.log(response);
       const json = await response.json();
       // console.log(json);
@@ -31,10 +35,16 @@ export default function Notifications() {
   return (
     <View style={notifStyles.notifPage}>
       {isLoading ? <ActivityIndicator /> : (
-        <FlatList data={data}
-          keyExtractor={(item) => `${item.name}:${item.quantity}`} // TODO: also ID
+        <FlatList
+          onRefresh={() => {
+            setIsRefreshing(true);
+            getNotifications().then(() => setIsRefreshing(false)); //refresh the list of current items that are low on inventory
+          }}
+          refreshing={isRefreshing}
+          data={data}
+          keyExtractor={(item) => `${item.name}:${item.quantity}`} // extracting info from json fetch
           renderItem={({ item }) => (
-            // <Text>{item.iname} {item.quantity}</Text>
+            // <Text>{item.iname} {item.quantity}</Text> //test that necessary information was reaching notification component
             <NotificationItem item={item.iname} amount={item.quantity}></NotificationItem>
           )}>
         </FlatList>

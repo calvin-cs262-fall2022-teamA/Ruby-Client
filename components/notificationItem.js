@@ -3,14 +3,22 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 /* A component used to display each item in the ItemsScreen */
+/**
+ * 
+ * @param {string} name of the item that is below notification level
+ * @param {string} amount that is left in the inventory/database of given item
+ * @returns notification component alert to notification screen 
+ */
 export default function NotificationItem({ item, amount }) {
 
 
     return (
-        <View style={NotificationItemStyles.notifObj}>
-            <Icon name="priority-high" size={35} style={NotificationItemStyles.notifIcon}></Icon>
-            <View style={NotificationItemStyles.notifContainer}>
-                <Text style={NotificationItemStyles.notifText}>You only have {amount} {item} left. Restocking is recommended</Text>
+        <View style={NotificationItemStyles.page}>
+            <View style={NotificationItemStyles.notifObj}>
+                <Icon name="priority-high" size={35} style={NotificationItemStyles.notifIcon}></Icon>
+                <View style={NotificationItemStyles.notifContainer}>
+                    <Text style={NotificationItemStyles.notifText}>You only have {amount} {item} left. Restocking is recommended</Text>
+                </View>
             </View>
         </View>
     );
@@ -25,6 +33,7 @@ const NotificationItemStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: 270,
+        height: '100%',
         borderRadius: 25,
         marginLeft: 0,
         marginRight: 0,
@@ -41,7 +50,9 @@ const NotificationItemStyles = StyleSheet.create({
         width: '85%',
         marginLeft: '7.5%',
         borderRadius: 30,
-        margin: 10,
+        margin: 5,
+
+
 
     },
     notifIcon: {
@@ -58,5 +69,8 @@ const NotificationItemStyles = StyleSheet.create({
         color: 'white',
         fontSize: 15,
 
+    },
+    page: {
+        marginTop: 10,
     }
 });
