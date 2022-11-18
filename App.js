@@ -1,34 +1,21 @@
 // From https://reactnavigation.org/docs/auth-flow/
 
 import * as React from 'react';
-import { Alert, Button, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import bcrypt from "react-native-bcrypt";
 import isaac from "isaac";
 
 
-bcrypt.setRandomFallback((len) => {
-  const buf = new Uint8Array(len);
-
-  return buf.map(() => Math.floor(isaac.random() * 256));
-});
-
 import SplashScreen from './screens/login/splash';
 import SignInScreen from './screens/login/login';
 import RegisterScreen from './screens/login/register';
-import ItemEditScreen from './screens/itemedit';
-import ItemsScreen from "./screens/items";
 import { AuthContext } from './states/auth';
-import { ItemsContext } from './states/itemscontext';
 import Notifications from './screens/notifications';
-import { Item } from "./models/item";
-import { ItemsStack } from './stacks/itemsstack';
 import About from './screens/about';
 import { StateContext } from "./states/state"
 
@@ -36,9 +23,19 @@ import { StateContext } from "./states/state"
 const Stack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
 
+bcrypt.setRandomFallback((len) => {
+  const buf = new Uint8Array(len);
 
+  return buf.map(() => Math.floor(isaac.random() * 256));
+});
 
-export default function App({ navigation }) {
+/**
+ * The root of the app
+ *
+ * Handles authorization and sets up the tabs/screens
+ * @returns The apps root component
+ */
+export default function App() {
   // Handles state transitions for Authorization: calls only made by useMemo
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
@@ -163,7 +160,7 @@ export default function App({ navigation }) {
           const hash = bcrypt.hashSync(data.password, '$2a$10$eJFQzk1zl6FoX4.E31XdZe');
 
 
-          // Post username 
+          // Post username
           try {
             const res = await fetch('https://be-a-ruby.herokuapp.com/users', {
               method: 'POST',
