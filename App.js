@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import bcrypt from "react-native-bcrypt";
 import isaac from "isaac";
 
+
 bcrypt.setRandomFallback((len) => {
   const buf = new Uint8Array(len);
 
@@ -29,6 +30,7 @@ import Notifications from './screens/notifications';
 import { Item } from "./models/item";
 import { ItemsStack } from './stacks/itemsstack';
 import About from './screens/about';
+import { StateContext } from "./states/state"
 
 
 const Stack = createStackNavigator();
@@ -119,7 +121,6 @@ export default function App({ navigation }) {
           const hash = bcrypt.hashSync(data.password, '$2a$10$eJFQzk1zl6FoX4.E31XdZe');
           const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${data.username}/${hash}`);
           json = await res.json();
-          console.log(json);
 
         } catch (error) {
           console.error('Error:', error);
@@ -188,81 +189,84 @@ export default function App({ navigation }) {
 
   return (
     <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        {state.isLoading ? (
-          <Stack.Navigator>
-            {/* // We haven't finished checking for the token yet */}
-            <Stack.Screen name="Splash" component={SplashScreen} />
-          </Stack.Navigator>
-        ) : state.userToken == null ? (
-          // No token found, user isn't signed in
-          <Stack.Navigator>
+      <StateContext.Provider value={state}>
 
-            <Stack.Screen
-              name="SignIn"
-              component={SignInScreen}
-              options={{
-                title: 'Sign in',
-                // When logging out, a pop animation feels intuitive
-                animationTypeForReplace: state.isSignout ? 'pop' : 'push',
-              }} />
-            <Stack.Screen
-              name="Register"
-              component={RegisterScreen}
-              options={{
-                title: 'Register',
-                // When logging out, a pop animation feels intuitive
-                animationTypeForReplace: state.isSignout ? 'pop' : 'push',
-              }} />
+        <NavigationContainer>
+          {state.isLoading ? (
+            <Stack.Navigator>
+              {/* // We haven't finished checking for the token yet */}
+              <Stack.Screen name="Splash" component={SplashScreen} />
+            </Stack.Navigator>
+          ) : state.userToken == null ? (
+            // No token found, user isn't signed in
+            <Stack.Navigator>
 
-          </Stack.Navigator>
-        ) : (
-          // User is signed in: Put all the app screens between the <> and </>
-          <Tabs.Navigator
-            screenOptions={({ route }) => ({
-              tabBarIcon: ({ color, size }) => {
-                let iconName;
+              <Stack.Screen
+                name="SignIn"
+                component={SignInScreen}
+                options={{
+                  title: 'Sign in',
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+                }} />
+              <Stack.Screen
+                name="Register"
+                component={RegisterScreen}
+                options={{
+                  title: 'Register',
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+                }} />
 
-                if (route.name === 'Item List') {
-                  iconName = 'now-widgets';
-                } else if (route.name === 'Notifications') {
-                  iconName = 'notifications';
-                } else if (route.name === 'Logout') {
-                  iconName = 'logout'
-                } else if (route.name === 'About') {
-                  iconName = 'info'
-                }
+            </Stack.Navigator>
+          ) : (
+            // User is signed in: Put all the app screens between the <> and </>
+            <Tabs.Navigator
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ color, size }) => {
+                  let iconName;
 
-                return <Icon name={iconName} size={size} color={color} />;
-              },
-              tabBarActiveTintColor: 'rgb(213,83,66)',
-              tabBarInactiveTintColor: 'gray',
-            })}>
-            {state.type === "Volunteer" ?
-              <></> :
-              <>
-                <Tabs.Screen name="Item List" component={ItemsStack} initialParams={{ userType: state.type, username: state.userToken }} options={{ headerShown: false }} />
-                <Tabs.Screen name="Notifications" component={Notifications} initialParams={{ userType: state.type }} />
-              </>
-            }
-            <Tabs.Screen name="About" component={About} />
-            <Tabs.Screen name="Logout" component={SplashScreen}
-              options={() => ({
-                tabBarButton: (props) => {
-                  return (
-                    <TouchableOpacity {...props}
-                      onPress={() => { authContext.signOut(); }}
-                    >
-                      {props.children}
-                    </TouchableOpacity>
-                  );
-                }
-              })}
-            />
-          </Tabs.Navigator>
-        )}
+                  if (route.name === 'Item List') {
+                    iconName = 'now-widgets';
+                  } else if (route.name === 'Notifications') {
+                    iconName = 'notifications';
+                  } else if (route.name === 'Logout') {
+                    iconName = 'logout'
+                  } else if (route.name === 'About') {
+                    iconName = 'info'
+                  }
 
-      </NavigationContainer>
+                  return <Icon name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: 'rgb(213,83,66)',
+                tabBarInactiveTintColor: 'gray',
+              })}>
+              {state.type === "Volunteer" ?
+                <></> :
+                <>
+                  <Tabs.Screen name="Item List" component={ItemsStack} options={{ headerShown: false }} />
+                  <Tabs.Screen name="Notifications" component={Notifications} />
+                </>
+              }
+              <Tabs.Screen name="About" component={About} />
+              <Tabs.Screen name="Logout" component={SplashScreen}
+                options={() => ({
+                  tabBarButton: (props) => {
+                    return (
+                      <TouchableOpacity {...props}
+                        onPress={() => { authContext.signOut(); }}
+                      >
+                        {props.children}
+                      </TouchableOpacity>
+                    );
+                  }
+                })}
+              />
+            </Tabs.Navigator>
+          )}
+
+        </NavigationContainer>
+      </StateContext.Provider>
     </AuthContext.Provider>
   );
 }

@@ -8,6 +8,7 @@ import { ItemsContext } from '../states/itemscontext';
 import { Item } from "../models/item";
 import { ActionButton } from '../components/actionbutton';
 import { ModalSelector } from '../components/modalselector';
+import { StateContext } from '../states/state';
 
 
 /**
@@ -21,9 +22,8 @@ import { ModalSelector } from '../components/modalselector';
 export default function ItemsScreen({ navigation, route }) {
   const { items, trailers, addItem, fetchItemsAndTrailers, sortItems } = React.useContext(ItemsContext);
 
-  const { userType } = route.params;
-  console.log(userType);
-  const isAdmin = (userType === "Admin");
+  const { type } = React.useContext(StateContext);
+  const isAdmin = (type === "Admin");
 
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
@@ -51,7 +51,7 @@ export default function ItemsScreen({ navigation, route }) {
   const ItemsHeader = () => (
     <View style={globalStyles.header}>
       <View style={itemsStyles.headerTitle}>
-        {(userType === "Admin") ?
+        {(isAdmin) ?
           <>
             <TouchableOpacity style={itemsStyles.trailerDropdown}
               onPress={() => setShowTrailerSelector(true)}
