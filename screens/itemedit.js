@@ -7,6 +7,12 @@ import { globalStyles } from '../styles/global';
 import { itemsContext } from '../states/itemscontext';
 
 /* A screen used to edit an item in inventory */
+/**
+ * 
+ * @param {object} navigation - property used to shift from screen to screen 
+ * @param {object} route - change screens and transmit the data of the objects between screens
+ * @returns 
+ */
 export default function ItemEditScreen({ navigation, route }) {
   const item = route.params;
   const [name, setName] = React.useState(item.name);
@@ -16,11 +22,11 @@ export default function ItemEditScreen({ navigation, route }) {
   const [minimumAmount, setMinimumAmount] = React.useState(item.minimumAmount);
   const [deleteConfirmationShown, setDeleteConfirmationShown] = React.useState(false);
 
-  const { items, deleteItem } = React.useContext(itemsContext);
+  const { deleteItem } = React.useContext(itemsContext);
 
   const header = (itemName, siteName) => (
     <View style={globalStyles.header}>
-      <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}'s {itemName}</Text>
+      <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}`&apos;s {itemName}</Text>
       <View>
         <TouchableOpacity onPress={() => setDeleteConfirmationShown(true)}>
           <MaterialIcon name="delete" size={30}></MaterialIcon>
@@ -67,7 +73,7 @@ export default function ItemEditScreen({ navigation, route }) {
           />
 
           {/* Increment Amount */}
-        
+
           <TouchableOpacity
             style={styles.incrementButton}
             onPress={() => {
@@ -171,8 +177,8 @@ const styles = StyleSheet.create({
   amountRow: {
     flexDirection: "row",
     alignItems: "center",
-    
-    
+
+
   },
   textBox: {
     width: "90%",
@@ -181,7 +187,7 @@ const styles = StyleSheet.create({
   amountTextBox: {
     width: "50%",
     marginRight: "2%",
-    
+
   },
   incrementButton: {
     width: "10%",
@@ -202,7 +208,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
   deleteConfirmation: {
-    width: "100%",
     backgroundColor: "white",
     marginTop: 350,
     borderTopColor: "rgb(213,83,66)",

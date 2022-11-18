@@ -6,8 +6,12 @@ import { globalStyles } from '../../styles/global';
 import { AuthContext } from '../../states/auth';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
-export default function SignInScreen({navigation }) {
+/**
+ * 
+ * @param {object} navigation - object for changing screens in the stack navigator
+ * @returns Component for login screen with image background
+ */
+export default function SignInScreen({ navigation }) {
   const backgroundImage = require("../../images/bearuby.jpg");
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -45,33 +49,33 @@ export default function SignInScreen({navigation }) {
 
   return (
     <ImageBackground source={backgroundImage} resizeMode='repeat' style={globalStyles.image}>
-    <View style={globalStyles.loginBlock}>
-      <Text style={globalStyles.loginText}>Username: </Text>
-      <TextInput style={globalStyles.userCredentials}
-        value={username}
-        onChangeText={setUsername}
-      />
-      <Text style={globalStyles.loginText}>Password: </Text>
-      <TextInput style={globalStyles.userCredentials}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      {/* remove selected when migrating to database */}
-      <TouchableOpacity style={globalStyles.loginAction} onPress={() => signIn({ username, password, selected })}>
-        <Text style={globalStyles.loginActionText}>Sign In</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.loginNav } onPress={() => navigation.navigate('Register')}>
-        <Text style={globalStyles.loginNavText }>Register</Text>
-      </TouchableOpacity>
-      {/* Temporary before database */}
-     <View style={globalStyles.loginButtons}>
-      <RadioGroup
-        radioButtons={radioButtons}
-        onPress={onPressRadioButton}
-      />
+      <View style={globalStyles.loginBlock}>
+        <Text style={globalStyles.loginText}>Username: </Text>
+        <TextInput style={globalStyles.userCredentials}
+          value={username}
+          onChangeText={setUsername}
+        />
+        <Text style={globalStyles.loginText}>Password: </Text>
+        <TextInput style={globalStyles.userCredentials}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        {/* remove selected when migrating to database */}
+        <TouchableOpacity style={globalStyles.loginAction} onPress={() => signIn({ username, password, selected })}>
+          <Text style={globalStyles.loginActionText}>Sign In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={globalStyles.loginNav} onPress={() => navigation.navigate('Register')}>
+          <Text style={globalStyles.loginNavText}>Register</Text>
+        </TouchableOpacity>
+        {/* Temporary before database */}
+        <View style={globalStyles.loginButtons}>
+          <RadioGroup
+            radioButtons={radioButtons}
+            onPress={onPressRadioButton}
+          />
+        </View>
       </View>
-    </View>
     </ImageBackground>
   );
 }
