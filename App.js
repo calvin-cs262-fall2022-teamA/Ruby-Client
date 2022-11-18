@@ -116,8 +116,9 @@ export default function App() {
         // Request user type for person
         let json;
         try {
+
           const hash = bcrypt.hashSync(data.password, '$2a$10$eJFQzk1zl6FoX4.E31XdZe');
-          const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${data.username}/${hash}`);
+          const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${encodeURIComponent(data.username)}/${encodeURIComponent(hash)}`);
           json = await res.json();
 
         } catch (error) {
@@ -145,7 +146,7 @@ export default function App() {
         // Verify unique login
         let json;
         try {
-          const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${data.username}`);
+          const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${encodeURIComponent(data.username)}`);
           json = await res.json();
         } catch (error) {
           console.error('Error:', error);
