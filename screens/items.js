@@ -4,7 +4,6 @@ import { globalStyles } from '../styles/global';
 import ListItem from '../components/listitem';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/Entypo';
-import { AuthContext } from '../states/auth';
 import { ItemsContext } from '../states/itemscontext';
 import { Item } from "../models/item";
 import { ActionButton } from '../components/actionbutton';
@@ -17,7 +16,6 @@ import { ModalSelector } from '../components/modalselector';
     but the admin has a few more actions they can take.
 */
 export default function ItemsScreen({ navigation, route }) {
-    const { signOut } = React.useContext(AuthContext);
     const { items, trailers, addItem, fetchItemsAndTrailers, sortItems } = React.useContext(ItemsContext);
 
     const { userType } = route.params;
@@ -40,7 +38,7 @@ export default function ItemsScreen({ navigation, route }) {
             comparer: (item1, item2) => (item1.amount - item2.amount)
         },
         {
-            description: "Nearness to Notification Level", //todo
+            description: "Low",
             comparer: (item1, item2) => ((item1.amount - item1.minimumAmount) / (item1.defaultIncrement + .01) - (item2.amount - item2.minimumAmount) / (item2.defaultIncrement + .01))
         }
     ];
@@ -112,10 +110,6 @@ export default function ItemsScreen({ navigation, route }) {
                             <ListItem item={item} navigation={navigation} isAdmin={isAdmin}></ListItem>
                         )}>
                     </FlatList>
-                    {/* // Temporary to test login features with different user views */}
-                    <TouchableOpacity style={globalStyles.loginNav} onPress={signOut}>
-                        <Text style={globalStyles.loginNavText}>Signout</Text>
-                    </TouchableOpacity>
                 </View>
             </View>
 

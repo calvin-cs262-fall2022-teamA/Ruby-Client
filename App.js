@@ -1,7 +1,7 @@
 // From https://reactnavigation.org/docs/auth-flow/
 
 import * as React from 'react';
-import { Alert, Button, Text, TextInput, View } from 'react-native';
+import { Alert, Button, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store';
@@ -20,6 +20,7 @@ import { ItemsContext } from './states/itemscontext';
 import Notifications from './screens/notifications';
 import { Item } from "./models/item";
 import { ItemsStack } from './stacks/itemsstack';
+import About from './screens/about';
 
 
 const Stack = createStackNavigator();
@@ -180,33 +181,48 @@ export default function App({ navigation }) {
           </Stack.Navigator>
         ) : (
           // User is signed in: Put all the app screens between the <> and </>
-          // This homescreen gives an example how to access state variables
-
-          /* <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
-            initialParams={{ userToken: state.userToken }} /> */
-          /* <Stack.Screen name= "ItemEdit" component={ItemEdit}  /> */
           <Tabs.Navigator
             screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
+              tabBarIcon: ({ color, size }) => {
                 let iconName;
 
                 if (route.name === 'Item List') {
                   iconName = 'now-widgets';
-
                 } else if (route.name === 'Notifications') {
                   iconName = 'notifications';
+                } else if (route.name === 'Logout') {
+                  iconName = 'logout'
+                } else if (route.name === 'About') {
+                  iconName = 'info'
                 }
 
-                // You can return any component that you like here!
                 return <Icon name={iconName} size={size} color={color} />;
               },
               tabBarActiveTintColor: 'rgb(213,83,66)',
               tabBarInactiveTintColor: 'gray',
             })}>
-            <Tabs.Screen name="Item List" component={ItemsStack} initialParams={{ userType: state.type, username: state.userToken }} options={{ headerShown: false }} />
-            <Tabs.Screen name="Notifications" component={Notifications} initialParams={{ userType: state.type }} />
+            {state.type === "Volunteer" ?
+              <></> :
+              <>
+                <Tabs.Screen name="Item List" component={ItemsStack} initialParams={{ userType: state.type, username: state.userToken }} options={{ headerShown: false }} />
+                <Tabs.Screen name="Notifications" component={Notifications} initialParams={{ userType: state.type }} />
+              </>
+            }
+            <Tabs.Screen name="About" component={About} />
+            <Tabs.Screen name="Logout" component={SplashScreen}
+              options={() => ({
+                tabBarButton: (props) => {
+                  console.log(props);
+                  return (
+                    <TouchableOpacity {...props}
+                      onPress={() => { authContext.signOut(); }}
+                    >
+                      {props.children}
+                    </TouchableOpacity>
+                  );
+                }
+              })}
+            />
           </Tabs.Navigator>
         )}
 

@@ -3,7 +3,9 @@ import { Item } from "../models/item";
 import Toast from "react-native-simple-toast";
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-/* Provides the items currently displayed */
+/**
+ * Stores the items and trailers for the user and methods to modify them.
+ */
 export const ItemsContext = React.createContext({
   items: [],
   trailers: [],
@@ -14,12 +16,22 @@ export const ItemsContext = React.createContext({
   sortItems: () => { },
 });
 
+/**
+ * A component that provides the ItemsContext
+ *
+ * @param {Component} children - the children of the provider (passed as the children not an attribute)
+ * @param {string} username - the username of the current user
+ * @returns the provider component
+ */
 export function ItemsProvider({ children, username }) {
   const [items, setItems] = React.useState([]);
   const [trailers, setTrailers] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [haveFetched, setHaveFetched] = React.useState(false);
 
+  /**
+   * Fetches and sets the items and trailers for the current user.
+   */
   const fetchItemsAndTrailers = async () => {
     console.log(`Fetching items and trailers for username=${username}`);
     try {
@@ -42,6 +54,11 @@ export function ItemsProvider({ children, username }) {
     }
   };
 
+  /**
+   * Deletes and item from the database (as well as locally)
+   *
+   * @param {int} id - the id of the item to delete
+   */
   const deleteItem = (id) => {
     console.log(`Deleting! id=${id}`);
     try {
@@ -58,6 +75,11 @@ export function ItemsProvider({ children, username }) {
     }
   }
 
+  /**
+   * Adds the item with the specified id from the database (as well as locally)
+   *
+   * @param {Item} item - the item to add (the id is set automatically by this function)
+   */
   const addItem = async (item) => {
     try {
       const response = await fetch('https://be-a-ruby.herokuapp.com/items', {
@@ -76,6 +98,11 @@ export function ItemsProvider({ children, username }) {
     setItems(items);
   };
 
+  /**
+   * Saves an item in the database.
+   *
+   * @param {int} id - the id of the item to save
+   */
   const saveItem = (id) => {
     const item = items.find(i => i.id === id);
     setItems(items);
@@ -93,6 +120,11 @@ export function ItemsProvider({ children, username }) {
     }
   };
 
+  /**
+   * Sorts the items.
+   *
+   * @param {(Item, Item) => int} comparer - a function that compares two Items
+   */
   const sortItems = (comparer) => {
     setItems(items.sort(comparer));
   };
