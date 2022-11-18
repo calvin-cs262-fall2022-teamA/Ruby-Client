@@ -1,17 +1,17 @@
 import React from "react";
 import { Keyboard, KeyboardAvoidingView, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { TextBox } from "../components/textbox";
-import Icon from 'react-native-vector-icons/Entypo';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../styles/global';
-import { itemsContext } from '../states/itemscontext';
+import { ItemsContext } from '../states/itemscontext';
+import { ActionButton } from "../components/actionbutton";
 
 /* A screen used to edit an item in inventory */
 /**
- * 
- * @param {object} navigation - property used to shift from screen to screen 
+ *
+ * @param {object} navigation - property used to shift from screen to screen
  * @param {object} route - change screens and transmit the data of the objects between screens
- * @returns 
+ * @returns
  */
 export default function ItemEditScreen({ navigation, route }) {
   const item = route.params;
@@ -22,11 +22,11 @@ export default function ItemEditScreen({ navigation, route }) {
   const [minimumAmount, setMinimumAmount] = React.useState(item.minimumAmount);
   const [deleteConfirmationShown, setDeleteConfirmationShown] = React.useState(false);
 
-  const { deleteItem } = React.useContext(itemsContext);
+  const { deleteItem, saveItem } = React.useContext(ItemsContext);
 
   const header = (itemName, siteName) => (
     <View style={globalStyles.header}>
-      <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}`&apos;s {itemName}</Text>
+      <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}&apos;s {itemName}</Text>
       <View>
         <TouchableOpacity onPress={() => setDeleteConfirmationShown(true)}>
           <MaterialIcon name="delete" size={30}></MaterialIcon>
@@ -36,7 +36,7 @@ export default function ItemEditScreen({ navigation, route }) {
   );
 
   React.useEffect(
-    () => navigation.setOptions({ headerTitle: () => header(name, "Trailer 1") }, [navigation]) // TODO: don't hardcode site name
+    () => navigation.setOptions({ headerTitle: () => header(name, item.trailerName) }, [navigation])
   );
 
   return (
@@ -52,7 +52,9 @@ export default function ItemEditScreen({ navigation, route }) {
             setName(name);
           }}
           onEndEditing={() => {
-            item.trySave.bind(item)("name", name);
+            if (item.editProperty.bind(item)("name", name)) {
+              saveItem(item.id);
+            }
             setName(item.name);
           }}
         />
@@ -67,33 +69,37 @@ export default function ItemEditScreen({ navigation, route }) {
             keyboardType="numeric"
             onChangeText={setAmount}
             onEndEditing={() => {
-              item.trySave.bind(item)("amount", amount);
+              if (item.editProperty.bind(item)("amount", amount)) {
+                saveItem(item.id);
+              }
               setAmount(item.amount.toString());
             }}
           />
 
           {/* Increment Amount */}
 
-          <TouchableOpacity
+          <ActionButton
+            iconName="plus"
             style={styles.incrementButton}
             onPress={() => {
               const incrementAsNumber = parseInt(increment);
-              if (!isNaN(incrementAsNumber) && item.trySave("amount", item.amount + incrementAsNumber)) {
-                setAmount(item.amount.toString());
+              if (!isNaN(incrementAsNumber) && item.editProperty("amount", item.amount + incrementAsNumber)) {
+                saveItem(item.id);
               }
-            }}>
-            <Icon name="plus" style={globalStyles.incrementButtonText}></Icon>
-          </TouchableOpacity>
-          <TouchableOpacity
+              setAmount(item.amount.toString());
+            }}
+          />
+          <ActionButton
+            iconName="minus"
             style={styles.incrementButton}
             onPress={() => {
               const incrementAsNumber = parseInt(increment);
-              if (!isNaN(incrementAsNumber) && item.trySave("amount", item.amount - incrementAsNumber)) {
-                setAmount(item.amount.toString());
+              if (!isNaN(incrementAsNumber) && item.editProperty("amount", item.amount - incrementAsNumber)) {
+                saveItem(item.id);
               }
-            }}>
-            <Icon name="minus" style={globalStyles.incrementButtonText}></Icon>
-          </TouchableOpacity>
+              setAmount(item.amount.toString());
+            }}
+          />
 
           <TextBox style={{ ...styles.textBox, ...styles.incrementTextBox }}
             value={increment}
@@ -112,7 +118,9 @@ export default function ItemEditScreen({ navigation, route }) {
           keyboardType="numeric"
           onChangeText={setDefaultIncrement}
           onEndEditing={() => {
-            item.trySave.bind(item)("defaultIncrement", defaultIncrement);
+            if (item.editProperty.bind(item)("defaultIncrement", defaultIncrement)) {
+              saveItem(item.id);
+            }
             setDefaultIncrement(item.defaultIncrement.toString());
           }}
         />
@@ -126,7 +134,9 @@ export default function ItemEditScreen({ navigation, route }) {
           keyboardType="numeric"
           onChangeText={setMinimumAmount}
           onEndEditing={() => {
-            item.trySave.bind(item)("minimumAmount", minimumAmount);
+            if (item.editProperty.bind(item)("minimumAmount", minimumAmount)) {
+              saveItem(item.id);
+            }
             setMinimumAmount(item.minimumAmount.toString());
           }}
         />
@@ -143,7 +153,6 @@ export default function ItemEditScreen({ navigation, route }) {
               <View style={styles.deleteConfirmationButtons}>
                 <TouchableOpacity style={styles.deleteConfirmationButton}
                   onPress={() => {
-                    item.archive();
                     setDeleteConfirmationShown(false);
                     deleteItem(item.id);
                     navigation.pop();
@@ -153,10 +162,10 @@ export default function ItemEditScreen({ navigation, route }) {
                     Yes, delete
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.canceldeleteConfirmationButton}
+                <TouchableOpacity style={styles.cancelDeleteConfirmationButton}
                   onPress={() => setDeleteConfirmationShown(false)}
                 >
-                  <Text style={{ ...styles.canceldeleteConfirmationButtonText, ...styles.deleteConfirmationText }}>
+                  <Text style={{ ...styles.cancelDeleteConfirmationButtonText, ...styles.deleteConfirmationText }}>
                     Cancel
                   </Text>
                 </TouchableOpacity>
@@ -177,8 +186,6 @@ const styles = StyleSheet.create({
   amountRow: {
     flexDirection: "row",
     alignItems: "center",
-
-
   },
   textBox: {
     width: "90%",
@@ -187,16 +194,11 @@ const styles = StyleSheet.create({
   amountTextBox: {
     width: "50%",
     marginRight: "2%",
-
   },
   incrementButton: {
     width: "10%",
-    aspectRatio: 1,
-    borderRadius: 10000,
-    backgroundColor: "rgb(213,83,66)",
     marginLeft: 2,
     marginRight: 2,
-    justifyContent: "center",
   },
   incrementTextBox: {
     marginLeft: "1%",
@@ -234,13 +236,13 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     marginHorizontal: 8,
   },
-  canceldeleteConfirmationButton: {
+  cancelDeleteConfirmationButton: {
     backgroundColor: "grey",
     borderRadius: 10,
     marginBottom: 14,
     marginHorizontal: 8,
   },
-  canceldeleteConfirmationButtonText: {
+  cancelDeleteConfirmationButtonText: {
     color: 'white'
   },
   deleteConfirmationButtonText: {

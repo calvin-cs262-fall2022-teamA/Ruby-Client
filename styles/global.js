@@ -1,17 +1,12 @@
 import { StyleSheet } from 'react-native';
 
+/**
+ * Styles used shared between components in the app
+ */
 export const globalStyles = StyleSheet.create({
-  incrementButtonText: {
-    textAlign: "center",
-    textAlignVertical: "center",
-    color: "#fff",
-    fontSize: 40,
-  },
   image: {
     flex: 1,
-
   },
-
   loginBlock: {
     padding: 15,
     backgroundColor: 'white',
@@ -75,10 +70,14 @@ export const globalStyles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
+    textAlignVertical: 'center',
   },
   headerIcons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: "20%",
   },
+  container: {
+    flex: 1,
+  }
 });
