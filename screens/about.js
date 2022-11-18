@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     color: "#b5007f",
   },
   supportUs: {
-    marginBottom: 40,
+    marginTop: 20,
+    marginBottom: 20,
     fontSize: 30,
     backgroundColor: "#b5007f",
     color: "white",
