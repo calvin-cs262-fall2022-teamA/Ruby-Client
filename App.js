@@ -18,6 +18,7 @@ import { AuthContext } from './states/auth';
 import Notifications from './screens/notifications';
 import About from './screens/about';
 import { StateContext } from "./states/state"
+import { ItemsStack } from "./stacks/itemsstack";
 
 
 const Stack = createStackNavigator();
