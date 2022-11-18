@@ -2,9 +2,9 @@
  *  A class representing a certain item in stock (e.g. cups)
  */
 export class Item {
-  constructor({ id, name, amount, minimumAmount, defaultIncrement }) {
+  constructor({ id, name, amount, minimumAmount, defaultIncrement, trailerName, trailerId }) {
     // A unique id
-    this.id = id || 0;
+    this.id = id || 123456;
 
     // What the item is called
     this.name = name || "";
@@ -17,14 +17,20 @@ export class Item {
 
     // The default number of items added or removed at one time
     this.defaultIncrement = defaultIncrement || 1;
+
+    // The name of the trailer the item is in
+    this.trailerName = trailerName || "";
+
+    // The id of the trailer the item is in
+    this.trailerId = trailerId || 0;
   }
 
   /**
-   * Edits a property and returns whether the resulting item is valid.
+   * Attempts to edit a property and returns whether the item has been changed.
    *
    * @param {string} propertyName - The name of the property being set
    * @param {string | number} value - The value of the property being set
-   * @returns - True if the property is valid, false if it isn't.
+   * @returns - True if the item may have been changed, false if it hasn't.
    */
   editProperty(propertyName, value) {
     if (propertyName === "name") {
@@ -35,47 +41,28 @@ export class Item {
       this.name = value;
     }
     else { // numeric properties
-      const valueAsNumber = parseInt(value);
+      let valueAsNumber = parseInt(value);
       if (isNaN(valueAsNumber)) {
         return false;
+      }
+      if (valueAsNumber < 0) {
+        valueAsNumber = 0;
       }
 
       switch (propertyName) {
         case ("amount"):
-          if (valueAsNumber < 0) {
-            this.amount = 0;
-            return false;
-          }
           this.amount = valueAsNumber;
           break;
         case ("minimumAmount"):
-          if (valueAsNumber < 0) {
-            this.minimumAmount = 0;
-            return false;
-          }
           this.minimumAmount = valueAsNumber;
           break;
         case ("defaultIncrement"):
-          if (valueAsNumber < 0) {
-            this.defaultIncrement = 0;
-            return false;
-          }
           this.defaultIncrement = valueAsNumber;
           break;
         default:
           return false;
       }
     }
-
     return true;
-  }
-
-  /**
-   * Archives the item (shown in UI as "delete")
-   */
-  archive() {
-    // TODO: move this function to itemsContext
-    console.log(`Archiving! id=${this.id} name=${this.name}`);
-    // TODO: archive in database
   }
 }

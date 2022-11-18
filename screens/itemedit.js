@@ -3,7 +3,7 @@ import { Keyboard, KeyboardAvoidingView, Modal, StyleSheet, Text, TouchableOpaci
 import { TextBox } from "../components/textbox";
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../styles/global';
-import { itemsContext } from '../states/itemscontext';
+import { ItemsContext } from '../states/itemscontext';
 import { ActionButton } from "../components/actionbutton";
 
 /* A screen used to edit an item in inventory */
@@ -22,11 +22,11 @@ export default function ItemEditScreen({ navigation, route }) {
   const [minimumAmount, setMinimumAmount] = React.useState(item.minimumAmount);
   const [deleteConfirmationShown, setDeleteConfirmationShown] = React.useState(false);
 
-  const { deleteItem, saveItem } = React.useContext(itemsContext);
+  const { deleteItem, saveItem } = React.useContext(ItemsContext);
 
   const header = (itemName, siteName) => (
     <View style={globalStyles.header}>
-      <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}`&apos;s {itemName}</Text>
+      <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}&apos;s {itemName}</Text>
       <View>
         <TouchableOpacity onPress={() => setDeleteConfirmationShown(true)}>
           <MaterialIcon name="delete" size={30}></MaterialIcon>
@@ -36,7 +36,7 @@ export default function ItemEditScreen({ navigation, route }) {
   );
 
   React.useEffect(
-    () => navigation.setOptions({ headerTitle: () => header(name, "Trailer 1") }, [navigation]) // TODO: don't hardcode site name
+    () => navigation.setOptions({ headerTitle: () => header(name, item.trailerName) }, [navigation])
   );
 
   return (
@@ -153,7 +153,6 @@ export default function ItemEditScreen({ navigation, route }) {
               <View style={styles.deleteConfirmationButtons}>
                 <TouchableOpacity style={styles.deleteConfirmationButton}
                   onPress={() => {
-                    item.archive();
                     setDeleteConfirmationShown(false);
                     deleteItem(item.id);
                     navigation.pop();
@@ -163,10 +162,10 @@ export default function ItemEditScreen({ navigation, route }) {
                     Yes, delete
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.canceldeleteConfirmationButton}
+                <TouchableOpacity style={styles.cancelDeleteConfirmationButton}
                   onPress={() => setDeleteConfirmationShown(false)}
                 >
-                  <Text style={{ ...styles.canceldeleteConfirmationButtonText, ...styles.deleteConfirmationText }}>
+                  <Text style={{ ...styles.cancelDeleteConfirmationButtonText, ...styles.deleteConfirmationText }}>
                     Cancel
                   </Text>
                 </TouchableOpacity>
@@ -187,8 +186,6 @@ const styles = StyleSheet.create({
   amountRow: {
     flexDirection: "row",
     alignItems: "center",
-
-
   },
   textBox: {
     width: "90%",
@@ -197,7 +194,6 @@ const styles = StyleSheet.create({
   amountTextBox: {
     width: "50%",
     marginRight: "2%",
-
   },
   incrementButton: {
     width: "10%",
@@ -240,13 +236,13 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     marginHorizontal: 8,
   },
-  canceldeleteConfirmationButton: {
+  cancelDeleteConfirmationButton: {
     backgroundColor: "grey",
     borderRadius: 10,
     marginBottom: 14,
     marginHorizontal: 8,
   },
-  canceldeleteConfirmationButtonText: {
+  cancelDeleteConfirmationButtonText: {
     color: 'white'
   },
   deleteConfirmationButtonText: {

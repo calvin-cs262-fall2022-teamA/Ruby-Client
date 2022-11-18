@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { TextBox } from "./textbox";
 import Icon from 'react-native-vector-icons/Entypo';
-import { itemsContext } from '../states/itemscontext';
+import { ItemsContext } from '../states/itemscontext';
 import { ActionButton } from './actionbutton';
 
 /* A component used to display each item in the ItemsScreen */
@@ -10,7 +10,7 @@ export default function ListItem({ item, navigation, isAdmin }) {
 
   const [increment, setIncrement] = React.useState(item.defaultIncrement);
   const [amount, setAmount] = React.useState(item.amount);
-  const { saveItem } = React.useContext(itemsContext);
+  const { saveItem } = React.useContext(ItemsContext);
 
   return (
     <View style={listItemStyles.listItemBorder}>
@@ -39,9 +39,10 @@ export default function ListItem({ item, navigation, isAdmin }) {
       </View>
       <View style={listItemStyles.editWrapper}>
         {isAdmin ?
-          <TouchableOpacity onPress={() =>
-            navigation.navigate("ItemEditScreen", item)
-          }>
+          <TouchableOpacity style={listItemStyles.editButton}
+            onPress={() =>
+              navigation.navigate("ItemEditScreen", item)
+            }>
             <Icon name='edit' size={20}></Icon>
           </TouchableOpacity>
           :
@@ -77,12 +78,12 @@ const listItemStyles = StyleSheet.create({
     flexDirection: 'row',
     width: '40%',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   subtractButton: {
     height: 50,
     aspectRatio: 1,
-    marginLeft: "1%",
+    marginHorizontal: "10%",
   },
   amountText: {
     width: "30%",
@@ -92,5 +93,8 @@ const listItemStyles = StyleSheet.create({
     width: "30%",
     justifyContent: "flex-end",
     flexDirection: "row",
+  },
+  editButton: {
+    width: 40,
   }
 });

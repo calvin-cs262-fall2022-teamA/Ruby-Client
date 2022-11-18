@@ -1,16 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-
-// import { globalStyles } from '../styles/global';
+import { ImageBackground } from 'react-native';
+import { globalStyles } from '../../styles/global';
 
 /**
- * 
- * @returns Component with loading text
+ * Splash screen to display while checking if the user is logged in
+ *
+ * @returns a component showing the splash screen
  */
 export default function SplashScreen() {
+  const backgroundImage = require("../../assets/splash.png");
+
   return (
-    <View>
-      <Text>Loading...</Text>
-    </View>
+    <ImageBackground source={backgroundImage} resizeMode="center" style={globalStyles.image} />
   );
 }
