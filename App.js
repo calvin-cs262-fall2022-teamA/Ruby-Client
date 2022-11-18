@@ -117,7 +117,6 @@ export default function App({ navigation }) {
         let json;
         try {
           const hash = bcrypt.hashSync(data.password, '$2a$10$eJFQzk1zl6FoX4.E31XdZe');
-          console.log(hash);
           const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${data.username}/${hash}`);
           json = await res.json();
           console.log(json);
@@ -149,7 +148,6 @@ export default function App({ navigation }) {
         try {
           const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${data.username}`);
           json = await res.json();
-          console.log('Success:', json);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -166,10 +164,10 @@ export default function App({ navigation }) {
 
           // Post username 
           try {
-            const res = await fetch('https://be-a-ruby.herokuapp.com/users/users', {
+            const res = await fetch('https://be-a-ruby.herokuapp.com/users', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username: data.username, pswd: hashedPassword, type: defaultType })
+              body: JSON.stringify({ username: data.username, pswd: hash, type: defaultType })
             })
             json = await res.json();
           } catch (error) {
@@ -251,7 +249,6 @@ export default function App({ navigation }) {
             <Tabs.Screen name="Logout" component={SplashScreen}
               options={() => ({
                 tabBarButton: (props) => {
-                  console.log(props);
                   return (
                     <TouchableOpacity {...props}
                       onPress={() => { authContext.signOut(); }}
