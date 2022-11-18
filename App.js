@@ -9,6 +9,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import bcrypt from "react-native-bcrypt";
+import isaac from "isaac";
+
+bcrypt.setRandomFallback((len) => {
+  const buf = new Uint8Array(len);
+
+  return buf.map(() => Math.floor(isaac.random() * 256));
+});
 
 import HomeScreen from './screens/home';
 import SplashScreen from './screens/login/splash';
@@ -103,64 +111,77 @@ export default function App({ navigation }) {
         // In a production app, we need to send some data (usually username, password) to server and get a token
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
-        // var req;
+
         // Request user type for person
-        // fetch('https://be-a-ruby.herokuapp.com/usertype/${data.username}/${data.password}')
-        //   .then((response) => req = response)
-        //   // .then((data) => {
-        //   //   req = data;
-        //   //   console.log('Success:', data);
-        //   // })
-        //   .catch((error) => {
-        //     console.error('Error:', error);
-        //   });
-
-        // console.log(req);
-
-        // Only have 1 password stored in secure storage for now, switch
-        let username, password
+        let json;
         try {
-          // Restore token stored in `SecureStore` or any other encrypted storage
+          const hash = bcrypt.hashSync(data.password, '$2a$10$eJFQzk1zl6FoX4.E31XdZe');
+          console.log(hash);
+          const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${data.username}/${hash}`);
+          json = await res.json();
+          console.log(json);
 
-          username = await SecureStore.getItemAsync("username");
-          password = await SecureStore.getItemAsync("password");
-        } catch (e) {
-          // Restoring token failed
-
+        } catch (error) {
+          console.error('Error:', error);
         }
 
-        if (username == data.username && password == data.password) {
-          SecureStore.setItemAsync('userToken', username);
-          SecureStore.setItemAsync('type', data.selected);
-          dispatch({ type: 'SIGN_IN', token: username, selected: data.selected });
+        // Save username and user type and login
+        if (json.usertype) {
+          SecureStore.setItemAsync('userToken', data.username);
+          SecureStore.setItemAsync('type', json.usertype);
+          dispatch({ type: 'SIGN_IN', token: data.username, selected: json.usertype });
         } else {
           alert('Invalid password or username');
-          // Investigate way to update text/show bad password
         }
 
 
       },
       signOut: () => {
-        // Simulate logout by deleting saved userToken
+        // Logout by deleting saved userToken
         SecureStore.deleteItemAsync('userToken');
         SecureStore.deleteItemAsync('type');
         dispatch({ type: 'SIGN_OUT' })
       },
       register: async (data) => {
         // Verify unique login
+        let json;
+        try {
+          const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${data.username}`);
+          json = await res.json();
+          console.log('Success:', json);
+        } catch (error) {
+          console.error('Error:', error);
+        }
 
-        // hash username with hard coded salt (update later)
+        if (json.count == 1) {
+          // Non-unique username
+          alert('Please try a different username');
+        } else {
+          // unique username
+          const defaultType = 'Volunteer';
+          // Add hash username salt -- currently hardcoded
+          const hash = bcrypt.hashSync(data.password, '$2a$10$eJFQzk1zl6FoX4.E31XdZe');
 
-        // Post username if unique else notify 
 
-        // Save login for future
-        SecureStore.setItemAsync('username', data.username);
-        SecureStore.setItemAsync('password', data.password);
+          // Post username 
+          try {
+            const res = await fetch('https://be-a-ruby.herokuapp.com/users/users', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username: data.username, pswd: hashedPassword, type: defaultType })
+            })
+            json = await res.json();
+          } catch (error) {
+            console.error('Error:', error);
+          }
 
-        // Save user token
-        SecureStore.setItemAsync('userToken', data.username);
-        SecureStore.setItemAsync('type', data.selected);
-        dispatch({ type: 'SIGN_IN', token: data.username, selected: data.selected });
+          // Save user token
+          SecureStore.setItemAsync('userToken', data.username);
+          SecureStore.setItemAsync('type', defaultType);
+          dispatch({ type: 'SIGN_IN', token: data.username, selected: defaultType });
+        }
+
+
       },
     }),
     []
