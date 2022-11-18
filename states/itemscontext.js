@@ -34,7 +34,7 @@ export function ItemsProvider({ children, username }) {
    */
   const fetchItemsAndTrailers = async () => {
     try {
-      const response = await fetch(`https://be-a-ruby.herokuapp.com/traileritems/${username}`);
+      const response = await fetch(`https://be-a-ruby.herokuapp.com/traileritems/${encodeURIComponent(username)}`);
       const json = await response.json();
       setTrailers(json[0]);
       setItems(json[1].map((item) => new Item({
