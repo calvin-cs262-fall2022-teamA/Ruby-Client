@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { globalStyles } from '../styles/global';
 import { TextBox } from "./textbox";
 import Icon from 'react-native-vector-icons/Entypo';
+import { itemsContext } from '../states/itemscontext';
+import { ActionButton } from './actionbutton';
 
 /* A component used to display each item in the ItemsScreen */
 export default function ListItem({ item, navigation, isAdmin }) {
 
   const [increment, setIncrement] = React.useState(item.defaultIncrement);
   const [amount, setAmount] = React.useState(item.amount);
+  const { saveItem } = React.useContext(itemsContext);
 
   return (
     <View style={listItemStyles.listItemBorder}>
@@ -16,16 +18,17 @@ export default function ListItem({ item, navigation, isAdmin }) {
       <View style={listItemStyles.editAmount}>
         <Text style={listItemStyles.quantityText}>{amount}</Text>
 
-        <TouchableOpacity
+        <ActionButton
           style={listItemStyles.subtractButton}
+          iconName="minus"
           onPress={() => {
             const incrementAsNumber = parseInt(increment);
-            if (!isNaN(incrementAsNumber) && item.trySave("amount", item.amount - incrementAsNumber)) {
-              setAmount(item.amount.toString());
+            if (!isNaN(incrementAsNumber) && item.editProperty("amount", item.amount - incrementAsNumber)) {
+              saveItem(item.id);
             }
+            setAmount(item.amount.toString());
           }}>
-          <Icon name="minus" style={globalStyles.incrementButtonText}></Icon>
-        </TouchableOpacity>
+        </ActionButton>
 
         <TextBox style={listItemStyles.amountText}
           value={increment}
@@ -77,10 +80,8 @@ const listItemStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   subtractButton: {
-    height: '90%',
+    height: 50,
     aspectRatio: 1,
-    borderRadius: 10000,
-    backgroundColor: "rgb( 213,83,66)",
     marginLeft: "1%",
   },
   amountText: {

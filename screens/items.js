@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
+import { View, FlatList, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../styles/global';
 import ListItem from '../components/listitem';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Entypo';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { AuthContext } from '../states/auth';
 import { itemsContext } from '../states/itemscontext';
+import { Item } from "../models/item";
+import { ActionButton } from '../components/actionbutton';
 
 
 /*
@@ -20,22 +22,19 @@ export default function ItemsScreen({ navigation, route }) {
         navigation.setOptions({ headerTitle: ItemsHeader });
     }, [navigation]);
 
-    const { items, deleteItem } = React.useContext(itemsContext);
-
-    /* Rerender when leaving edit screen to make sure any edits are reflected */
-    const [refresh, refreshItems] = React.useState(false);
-    navigation.addListener("focus", () => refreshItems(!refresh));
+    const { items, addItem } = React.useContext(itemsContext);
 
     const { userType } = route.params;
+    const isAdmin = (userType === "Admin");
     console.log(JSON.stringify(userType));
 
     const { signOut } = React.useContext(AuthContext);
 
     return (
-        <View>
+        <View style={globalStyles.container}>
             <View style={itemsStyles.searchAndFilterRow}>
                 <View style={itemsStyles.search}>
-                    <Icon name="search" size={30}></Icon>
+                    <MaterialIcon name="search" size={30}></MaterialIcon>
                     <TextInput style={itemsStyles.searchBox}
                         value={searchText}
                         placeholder="Search..."
@@ -44,18 +43,18 @@ export default function ItemsScreen({ navigation, route }) {
                     <TouchableOpacity style={itemsStyles.clearSearch}
                         onPress={() => setSearchText("")}
                     >
-                        {searchText === "" ? <View /> : <Icon name="close" size={20} color="#d55342"></Icon>}
+                        {searchText === "" ? <View /> : <MaterialIcon name="close" size={20} color="#d55342"></MaterialIcon>}
                     </TouchableOpacity>
                 </View>
-                <Icon name="sort" size={30}></Icon>
+                <MaterialIcon name="sort" size={30}></MaterialIcon>
 
             </View>
-            <View style={itemsStyles.container}>
-                <View style={itemsStyles.content}>
+            <View style={globalStyles.container}>
+                <View>
                     <FlatList data={items.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))}
-                        keyExtractor={(item) => `${item.name}:${item.amount}:${item.defaultIncrement}`} // TODO: also ID
+                        keyExtractor={(item) => `${item.id}:${item.name}:${item.amount}:${item.defaultIncrement}`}
                         renderItem={({ item }) => (
-                            <ListItem item={item} navigation={navigation} isAdmin={userType === "Admin"}></ListItem>
+                            <ListItem item={item} navigation={navigation} isAdmin={isAdmin}></ListItem>
                         )}>
                     </FlatList>
                     {/* // Temporary to test login features with different user views */}
@@ -64,8 +63,22 @@ export default function ItemsScreen({ navigation, route }) {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View >
 
+            {/* Add item floating button */}
+            {
+                isAdmin ?
+                    <ActionButton style={itemsStyles.addButton}
+                        iconName="plus"
+                        onPress={() => {
+                            const newItem = new Item({ name: "Unnamed Items" });
+                            addItem(newItem);
+                            navigation.navigate("ItemEditScreen", newItem);
+                        }}>
+                    </ActionButton >
+                    :
+                    <View></View>
+            }
+        </View >
     );
 
 }
@@ -102,5 +115,12 @@ const itemsStyles = StyleSheet.create({
     },
     clearSearch: {
         width: 20,
-    }
+    },
+    addButton: {
+        position: "absolute",
+        width: 60,
+        height: 60,
+        bottom: 20,
+        right: 20,
+    },
 });

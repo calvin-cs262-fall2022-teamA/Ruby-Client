@@ -247,9 +247,21 @@ function ItemEdit({ route, navigation }) { //TODO: Put elsewhere
       minimumAmount: 10,
     }))]);
   const deleteItem = (id) => setItems(items.filter(i => i.id !== id));
+  const addItem = (item) => {
+    // TODO: Add item to database and get ID
+    item.id = Math.floor(Math.random() * 1000); // TODO: remove
+    items.unshift(item);
+    setItems(items);
+  };
+  const saveItem = (id) => {
+    const item = items.find(i => i.id === id);
+    console.log(`Saving! id=${item.id} name=${item.name} amount=${item.amount} minimumAmount=${item.minimumAmount} defaultIncrement=${item.defaultIncrement}`);
+    // TODO: save item in database
+    setItems(items);
+  };
 
   return (
-    <itemsContext.Provider value={{ items, deleteItem }}>
+    <itemsContext.Provider value={{ items, deleteItem, addItem, saveItem }}>
       <Stack.Navigator>
         <Stack.Screen name="Items" component={ItemsScreen} initialParams={{ userType: userType }} />
         <Stack.Screen name="ItemEditScreen" component={ItemEditScreen} />

@@ -1,31 +1,34 @@
-/*
-  A class representing a certain item in stock (e.g. cups)
-*/
+/**
+ *  A class representing a certain item in stock (e.g. cups)
+ */
 export class Item {
   constructor({ id, name, amount, minimumAmount, defaultIncrement }) {
     // A unique id
-    this.id = id;
+    this.id = id || 0;
 
     // What the item is called
-    this.name = name;
+    this.name = name || "";
 
     // How much of the item is currently in stock
-    this.amount = amount;
+    this.amount = amount || 0;
 
     // The amount at which a low inventory notification should be sent
-    this.minimumAmount = minimumAmount;
+    this.minimumAmount = minimumAmount || 0;
 
     // The default number of items added or removed at one time
-    this.defaultIncrement = defaultIncrement;
+    this.defaultIncrement = defaultIncrement || 1;
   }
 
-  /*
-    Attempts to set the specified property and save.
-    If the property is not valid (i.e. value is not a number when it should be),
-    false is returned.
-  */
-  trySave(propertyName, value) {
+  /**
+   * Edits a property and returns whether the resulting item is valid.
+   *
+   * @param {string} propertyName - The name of the property being set
+   * @param {string | number} value - The value of the property being set
+   * @returns - True if the property is valid, false if it isn't.
+   */
+  editProperty(propertyName, value) {
     if (propertyName === "name") {
+      value = value.trim();
       if (value === "") {
         return false;
       }
@@ -39,36 +42,40 @@ export class Item {
 
       switch (propertyName) {
         case ("amount"):
+          if (valueAsNumber < 0) {
+            this.amount = 0;
+            return false;
+          }
           this.amount = valueAsNumber;
           break;
         case ("minimumAmount"):
+          if (valueAsNumber < 0) {
+            this.minimumAmount = 0;
+            return false;
+          }
           this.minimumAmount = valueAsNumber;
           break;
         case ("defaultIncrement"):
+          if (valueAsNumber < 0) {
+            this.defaultIncrement = 0;
+            return false;
+          }
           this.defaultIncrement = valueAsNumber;
           break;
         default:
           return false;
-      };
+      }
     }
 
-    this.save();
     return true;
   }
 
-  /*
-    Saves the item to the database.
-  */
-  save() {
-    console.log(`Saving! name=${this.name} amount=${this.amount} minimumAmount=${this.minimumAmount} defaultIncrement=${this.defaultIncrement}`);
-    // TODO: save in database
-  }
-
-  /*
-    Archives the item (shown in UI as "delete")
-  */
+  /**
+   * Archives the item (shown in UI as "delete")
+   */
   archive() {
-    console.log(`Archiving! name=${this.name}`);
+    // TODO: move this function to itemsContext
+    console.log(`Archiving! id=${this.id} name=${this.name}`);
     // TODO: archive in database
   }
 }

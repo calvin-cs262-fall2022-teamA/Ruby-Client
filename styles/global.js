@@ -1,19 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const globalStyles = StyleSheet.create({
-  incrementButtonText: {
-    textAlign: "center",
-    textAlignVertical: "center",
-    color: "#fff",
-    fontSize: 40,
-  },
   image: {
     flex: 1,
-    
   },
-  
   loginBlock: {
-    padding: 15, 
+    padding: 15,
     backgroundColor: 'white',
     opacity: 0.95,
     borderRadius: 20,
@@ -33,7 +25,7 @@ export const globalStyles = StyleSheet.create({
   userCredentials: {
     padding: 10,
     width: '90%',
-    borderWidth: 1, 
+    borderWidth: 1,
     borderRadius: 25,
     marginTop: 5,
     marginHorizontal: 10,
@@ -65,7 +57,7 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'grey',
-    
+
   },
   header: {
     flexDirection: 'row',
@@ -81,4 +73,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'space-between',
     width: "20%",
   },
+  container: {
+    flex: 1,
+  }
 });
