@@ -8,10 +8,9 @@ import { StateContext } from '../states/state';
 /**
  * The stack of screens shown in the items tab (item list, and item edit)
  *
- * @param {object} route - an object used to navigate from React Navigator
- * @returns
+ * @returns The stack for the Items tab
  */
-export function ItemsStack({ route }) {
+export function ItemsStack() {
   const Stack = createStackNavigator();
   const { userToken } = React.useContext(StateContext);
 

@@ -17,6 +17,7 @@ import RegisterScreen from './screens/login/register';
 import { AuthContext } from './states/auth';
 import Notifications from './screens/notifications';
 import About from './screens/about';
+import Help from './screens/help';
 import { StateContext } from "./states/state"
 import { ItemsStack } from "./stacks/itemsstack";
 
@@ -233,6 +234,8 @@ export default function App() {
                     iconName = 'logout'
                   } else if (route.name === 'About') {
                     iconName = 'info'
+                  } else if (route.name === 'Help') {
+                    iconName = 'help'
                   }
 
                   return <Icon name={iconName} size={size} color={color} />;
@@ -245,10 +248,11 @@ export default function App() {
                 <>
                   <Tabs.Screen name="Item List" component={ItemsStack} options={{ headerShown: false }} />
                   <Tabs.Screen name="Notifications" component={Notifications} />
+                  <Tabs.Screen name="Help" component={Help} />
                 </>
               }
               <Tabs.Screen name="About" component={About} />
-              <Tabs.Screen name="Logout" component={SplashScreen}
+              <Tabs.Screen name="Logout" component={SplashScreen} // SplashScreen isn't actually used here, but a component is required
                 options={() => ({
                   tabBarButton: (props) => {
                     return (
