@@ -8,7 +8,8 @@ import { globalStyles } from '../../styles/global';
 import { TextInput } from 'react-native-paper';
 
 /**
- * 
+ * Screen with a form to register volunteers.
+ *
  * @param {object} navigation - object for changing screens in the stack navigator
  * @returns Component for register screen with image background
  */
@@ -28,12 +29,12 @@ export default function RegisterScreen({ navigation }) {
         <Text style={globalStyles.loginText}>Username: </Text>
         <TextInput style={globalStyles.userCredentials}
           value={username}
-          onChangeText={setUsername}
+          onChangeText={(value) => setUsername(value.trim())}
         />
         <Text style={globalStyles.loginText}>Password: </Text>
         <TextInput style={globalStyles.userCredentials}
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(value) => setPassword(value.trim())}
           secureTextEntry={isPasswordSecure}
           right={
             <TextInput.Icon
