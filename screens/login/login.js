@@ -1,5 +1,5 @@
 // import React from 'react';
-import { Text, View, Button, ImageBackground } from 'react-native';
+import { Text, View, ActivityIndicator, ImageBackground } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AuthContext } from '../../states/auth';
@@ -18,6 +18,7 @@ export default function SignInScreen({ navigation }) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isPasswordSecure, setIsPasswordSecure] = React.useState(true);
+  const [isSigningIn, setIsSigningIn] = React.useState(false);
 
   const { signIn } = React.useContext(AuthContext);
 
@@ -41,14 +42,24 @@ export default function SignInScreen({ navigation }) {
             />
           }
         />
-        <TouchableOpacity style={globalStyles.loginAction} onPress={() => signIn({ username, password })}>
-          <Text style={globalStyles.loginActionText}>Sign In</Text>
+        <TouchableOpacity style={globalStyles.loginAction}
+          onPress={() => {
+            if (!isSigningIn) {
+              setIsSigningIn(true);
+              signIn({ username, password })
+                .then(() => setIsSigningIn(false));
+            }
+          }}>
+          {isSigningIn ?
+            <ActivityIndicator style={globalStyles.loginActionText} /> :
+            <Text style={globalStyles.loginActionText}>Sign In</Text>
+          }
         </TouchableOpacity>
         <TouchableOpacity style={globalStyles.loginNav} onPress={() => navigation.navigate('Register')}>
           <Text style={globalStyles.loginNavText}>Register</Text>
         </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </ImageBackground >
   );
 }
 
