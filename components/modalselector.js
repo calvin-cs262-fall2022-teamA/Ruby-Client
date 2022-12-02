@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View, Modal, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View, Modal, Text } from 'react-native';
 import { FlatList } from "react-native-gesture-handler";
 
 /**
@@ -20,29 +20,35 @@ export function ModalSelector({ visible, options, optionTextSelector, onOptionCh
       transparent={true}
       onRequestClose={onRequestClose}
     >
-      <View style={styles.background}>
-        <View style={styles.container}>
-          <Text style={styles.prompt}>{promptText}</Text>
-          <FlatList style={styles.options}
-            data={options}
-            keyExtractor={(item) => optionTextSelector(item)}
-            renderItem={({ item }) =>
-            (
-              <TouchableOpacity
-                style={styles.touchable}
-                onPress={() => {
-                  onOptionChosen(item);
-                  onRequestClose();
+      <TouchableWithoutFeedback
+        onPress={onRequestClose}
+      >
+        <View style={styles.background}>
+          <TouchableWithoutFeedback>
+            <View style={styles.container}>
+              <Text style={styles.prompt}>{promptText}</Text>
+              <FlatList style={styles.options}
+                data={options}
+                keyExtractor={(item) => optionTextSelector(item)}
+                renderItem={({ item }) =>
+                (
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      onOptionChosen(item);
+                      onRequestClose();
+                    }
+                    }
+                  >
+                    <Text style={styles.option}>{optionTextSelector(item)}</Text>
+                  </TouchableOpacity>
+                )
                 }
-                }
-              >
-                <Text style={styles.option}>{optionTextSelector(item)}</Text>
-              </TouchableOpacity>
-            )
-            }
-          />
+              />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 }
