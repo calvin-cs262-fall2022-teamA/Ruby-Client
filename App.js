@@ -110,6 +110,16 @@ export default function App() {
     () => ({
       signIn: async (data) => {
         return new Promise((resolve, reject) => {
+          if (data.username === '') {
+            alert('Please enter a username');
+            resolve();
+            return;
+          }
+          if (data.password === '') {
+            alert('Please enter a password');
+            resolve();
+            return;
+          }
           // In a production app, we need to send some data (usually username, password) to server and get a token
           // We will also need to handle errors if sign in failed
           // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
@@ -118,6 +128,7 @@ export default function App() {
               console.error('Error:', error);
               alert('An error occurred');
               resolve();
+              return;
             }
 
             let json;
