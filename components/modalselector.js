@@ -24,27 +24,29 @@ export function ModalSelector({ visible, options, optionTextSelector, onOptionCh
         onPress={onRequestClose}
       >
         <View style={styles.background}>
-          <View style={styles.container}>
-            <Text style={styles.prompt}>{promptText}</Text>
-            <FlatList style={styles.options}
-              data={options}
-              keyExtractor={(item) => optionTextSelector(item)}
-              renderItem={({ item }) =>
-              (
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    onOptionChosen(item);
-                    onRequestClose();
-                  }
-                  }
-                >
-                  <Text style={styles.option}>{optionTextSelector(item)}</Text>
-                </TouchableOpacity>
-              )
-              }
-            />
-          </View>
+          <TouchableWithoutFeedback>
+            <View style={styles.container}>
+              <Text style={styles.prompt}>{promptText}</Text>
+              <FlatList style={styles.options}
+                data={options}
+                keyExtractor={(item) => optionTextSelector(item)}
+                renderItem={({ item }) =>
+                (
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      onOptionChosen(item);
+                      onRequestClose();
+                    }
+                    }
+                  >
+                    <Text style={styles.option}>{optionTextSelector(item)}</Text>
+                  </TouchableOpacity>
+                )
+                }
+              />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
     </Modal>
