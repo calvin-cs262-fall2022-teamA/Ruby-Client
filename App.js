@@ -160,6 +160,15 @@ export default function App() {
         dispatch({ type: 'SIGN_OUT' })
       },
       register: async (data) => {
+        if (data.username === '') {
+          alert('Please enter a username');
+          return;
+        }
+        if (data.password === '') {
+          alert('Please enter a password');
+          return;
+        }
+
         // Verify unique login
         let json;
         try {

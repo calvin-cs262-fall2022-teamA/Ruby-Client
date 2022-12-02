@@ -1,4 +1,3 @@
-// import React from 'react';
 import { Text, View, ActivityIndicator, ImageBackground } from 'react-native';
 import { globalStyles } from '../../styles/global';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,6 +8,7 @@ import * as React from 'react';
 import { TextInput } from 'react-native-paper';
 
 /**
+ * A screen with a sign in form for users.
  *
  * @param {object} navigation - object for changing screens in the stack navigator
  * @returns Component for login screen with image background
@@ -28,12 +28,12 @@ export default function SignInScreen({ navigation }) {
         <Text style={globalStyles.loginText}>Username: </Text>
         <TextInput style={globalStyles.userCredentials}
           value={username}
-          onChangeText={setUsername}
+          onChangeText={(value) => setUsername(value.trim())}
         />
         <Text style={globalStyles.loginText}>Password: </Text>
         <TextInput style={globalStyles.userCredentials}
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(value) => setPassword(value.trim())}
           secureTextEntry={isPasswordSecure}
           right={
             <TextInput.Icon
