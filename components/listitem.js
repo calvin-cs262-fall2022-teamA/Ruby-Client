@@ -43,7 +43,7 @@ export default function ListItem({ item, navigation, isAdmin }) {
             onPress={() =>
               navigation.navigate("ItemEditScreen", item)
             }>
-            <Icon name='edit' size={20}></Icon>
+            <Icon name='edit' style={listItemStyles.editIcon}></Icon>
           </TouchableOpacity>
           :
           <View></View>
@@ -57,7 +57,7 @@ const listItemStyles = StyleSheet.create({
   listItemBorder: {
     flexDirection: 'row',
     height: 70,
-    padding: 10,
+    paddingLeft: 10,
     borderWidth: 3,
     borderRadius: 10,
     margin: 5,
@@ -87,14 +87,21 @@ const listItemStyles = StyleSheet.create({
   },
   amountText: {
     width: "30%",
-    marginRight: "2%",
+    marginRight: "4%",
   },
   editWrapper: {
     width: "30%",
-    justifyContent: "flex-end",
-    flexDirection: "row",
+    height: "100%",
   },
   editButton: {
-    width: 40,
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  editIcon: {
+    marginRight: 10,
+    textAlignVertical: "center",
+    fontSize: 30,
   }
 });
