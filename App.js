@@ -17,9 +17,10 @@ import RegisterScreen from './screens/login/register';
 import { AuthContext } from './states/auth';
 import Notifications from './screens/notifications';
 import About from './screens/about';
-import Help from './screens/help';
+import { HelpStack } from "./stacks/helpstack";
 import { StateContext } from "./states/state"
 import { ItemsStack } from "./stacks/itemsstack";
+import { globalStyles } from './styles/global';
 
 
 const Stack = createStackNavigator();
@@ -247,11 +248,11 @@ export default function App() {
                 <></> :
                 <>
                   <Tabs.Screen name="Item List" component={ItemsStack} options={{ headerShown: false }} />
-                  <Tabs.Screen name="Notifications" component={Notifications} />
-                  <Tabs.Screen name="Help" component={Help} />
+                  <Tabs.Screen name="Notifications" component={Notifications} options={{ headerTitleStyle: globalStyles.headerText }} />
+                  <Tabs.Screen name="Help" component={HelpStack} options={{ headerShown: false }} />
                 </>
               }
-              <Tabs.Screen name="About" component={About} />
+              <Tabs.Screen name="About" component={About} options={{ headerTitleStyle: globalStyles.headerText }} />
               <Tabs.Screen name="Logout" component={SplashScreen} // SplashScreen isn't actually used here, but a component is required
                 options={() => ({
                   tabBarButton: (props) => {

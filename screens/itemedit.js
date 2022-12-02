@@ -5,9 +5,10 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../styles/global';
 import { ItemsContext } from '../states/itemscontext';
 import { ActionButton } from "../components/actionbutton";
+import { helpTexts } from '../data/helpTexts';
 
-/* A screen used to edit an item in inventory */
 /**
+ * A screen used to edit an item in inventory
  *
  * @param {object} navigation - property used to shift from screen to screen
  * @param {object} route - change screens and transmit the data of the objects between screens
@@ -27,7 +28,11 @@ export default function ItemEditScreen({ navigation, route }) {
   const header = (itemName, siteName) => (
     <View style={globalStyles.header}>
       <Text style={globalStyles.headerText} numberOfLines={1}>Edit {siteName}&apos;s {itemName}</Text>
-      <View>
+      <View style={globalStyles.headerIcons}>
+        <TouchableOpacity onPress={() => navigation.navigate("Help Section", { helpText: helpTexts.find((helpText) => helpText.topic == "What are the Item Edit Fields") })}>
+
+          <MaterialIcon name="help" size={30} color={"grey"}></MaterialIcon>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => setDeleteConfirmationShown(true)}>
           <MaterialIcon name="delete" size={30}></MaterialIcon>
         </TouchableOpacity>
