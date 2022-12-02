@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ImageBackground } from 'react-native';
+import { Text, View, ImageBackground, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../../states/auth';
 import PasswordStrengthMeterBar from 'react-native-password-strength-meter-bar';
@@ -19,6 +19,7 @@ export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isPasswordSecure, setIsPasswordSecure] = React.useState(true);
+  const [isRegistering, setIsRegistering] = React.useState(false);
 
   // Access global authorization state
   const { register } = React.useContext(AuthContext);
@@ -44,8 +45,18 @@ export default function RegisterScreen({ navigation }) {
           }
         />
         <PasswordStrengthMeterBar password={password} />
-        <TouchableOpacity style={globalStyles.loginAction} onPress={() => register({ username, password })}>
-          <Text style={globalStyles.loginActionText}>Register</Text>
+        <TouchableOpacity style={globalStyles.loginAction}
+          onPress={() => {
+            if (!isRegistering) {
+              setIsRegistering(true);
+              register({ username, password })
+                .then(() => setIsRegistering(false));
+            }
+          }}>
+          {isRegistering ?
+            <ActivityIndicator style={globalStyles.loginActionText} /> :
+            <Text style={globalStyles.loginActionText}>Register</Text>
+          }
         </TouchableOpacity>
         <TouchableOpacity style={globalStyles.loginNav} onPress={() => navigation.navigate('SignIn')}>
           <Text style={globalStyles.loginNavText}>Sign In</Text>

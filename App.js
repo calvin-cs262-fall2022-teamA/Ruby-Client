@@ -109,32 +109,49 @@ export default function App() {
   const authContext = React.useMemo(
     () => ({
       signIn: async (data) => {
-        // In a production app, we need to send some data (usually username, password) to server and get a token
-        // We will also need to handle errors if sign in failed
-        // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
+        return new Promise((resolve, reject) => {
+          if (data.username === '') {
+            alert('Please enter a username');
+            resolve();
+            return;
+          }
+          if (data.password === '') {
+            alert('Please enter a password');
+            resolve();
+            return;
+          }
+          // In a production app, we need to send some data (usually username, password) to server and get a token
+          // We will also need to handle errors if sign in failed
+          // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
+          bcrypt.hash(data.password, '$2a$10$eJFQzk1zl6FoX4.E31XdZe', async (error, hash) => {
+            if (error) {
+              console.error('Error:', error);
+              alert('An error occurred');
+              resolve();
+              return;
+            }
 
-        // Request user type for person
-        let json;
-        try {
+            let json;
+            try {
+              // Request user type for person
+              const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${encodeURIComponent(data.username)}/${encodeURIComponent(hash)}`);
+              json = await res.json();
+              // Save username and user type and login
+              if (json.usertype) {
+                SecureStore.setItemAsync('userToken', data.username);
+                SecureStore.setItemAsync('type', json.usertype);
+                dispatch({ type: 'SIGN_IN', token: data.username, selected: json.usertype });
+              } else {
+                alert('Invalid password or username');
+              }
 
-          const hash = bcrypt.hashSync(data.password, '$2a$10$eJFQzk1zl6FoX4.E31XdZe');
-          const res = await fetch(`https://be-a-ruby.herokuapp.com/users/${encodeURIComponent(data.username)}/${encodeURIComponent(hash)}`);
-          json = await res.json();
-
-        } catch (error) {
-          console.error('Error:', error);
-        }
-
-        // Save username and user type and login
-        if (json.usertype) {
-          SecureStore.setItemAsync('userToken', data.username);
-          SecureStore.setItemAsync('type', json.usertype);
-          dispatch({ type: 'SIGN_IN', token: data.username, selected: json.usertype });
-        } else {
-          alert('Invalid password or username');
-        }
-
-
+            } catch (error) {
+              console.error('Error:', error);
+              alert('An error occurred');
+            }
+            resolve();
+          });
+        });
       },
       signOut: () => {
         // Logout by deleting saved userToken
