@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Button, FlatList, StyleSheet, Text, ActivityIndicator } from 'react-native';
-import { itemsContext } from '../states/itemscontext';
+import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import NotificationItem from '../components/notificationItem';
 
 /**
- * 
+ * A screen to show notifications about low inventory of items.
+ *
  * @returns Notification screen with alerts of items whose levels are below notification level
  */
 export default function Notifications() {
@@ -40,7 +40,7 @@ export default function Notifications() {
           }}
           refreshing={isRefreshing}
           data={data}
-          keyExtractor={(item) => `${item.name}:${item.quantity}`} // extracting info from json fetch
+          keyExtractor={(item) => `${item.iname}:${item.quantity}`} // extracting info from json fetch
           renderItem={({ item }) => (
             <NotificationItem item={item.iname} amount={item.quantity}></NotificationItem>
           )}>
