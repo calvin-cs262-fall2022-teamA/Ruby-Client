@@ -1,7 +1,20 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
-/* A component to standardize editing/entering information */
+/**
+ * A component to standardize editing/entering information
+ *
+ * @param {string} label - a label of what should be entered in the textbox
+ * @param {string} suffix - text placed after the user-entered text
+ * @param {string} placeholder - text shown if nothing is in the textbox
+ * @param {string} value - the value shown in the textbox
+ * @param {(string) => void} onChangeText - a function called with the current value when the text is changed
+ * @param {(e: NativeSyntheticEvent<TextInputEndEditingEventData>) => void} onEndEditing - a function called when the user finishes entering text
+ * @param {KeyboardTypeOptions} keyboardType - the type of keyboard to display
+ * @param {StyleProp<ViewStyle>} style - styles to apply to the textbox
+ *
+ * @returns the textbox component
+ */
 export function TextBox({ label, suffix, placeholder, value, onChangeText, onEndEditing, keyboardType, style }) {
   const textInputRef = React.useRef(null);
 

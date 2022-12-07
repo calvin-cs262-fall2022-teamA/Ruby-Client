@@ -16,10 +16,11 @@ import { StateContext } from '../states/state';
  * This screen is similar for both the admin and site logins,
  * but the admin has a few more actions they can take.
  *
+ * @param {object} navigation - property used to shift from screen to screen
  * @returns the item screen component
  */
 
-export default function ItemsScreen({ navigation, route }) {
+export default function ItemsScreen({ navigation }) {
   const { items, trailers, addItem, fetchItemsAndTrailers, sortItems } = React.useContext(ItemsContext);
 
   const { type } = React.useContext(StateContext);

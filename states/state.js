@@ -1,4 +1,6 @@
 import * as React from 'react';
 
-// State variable
+/**
+ * State variable
+ */
 export const StateContext = React.createContext();

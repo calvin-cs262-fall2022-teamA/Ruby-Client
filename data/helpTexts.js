@@ -1,4 +1,4 @@
-/***
+/**
  * Help displayed in the help tab.
  */
 export const helpTexts = [

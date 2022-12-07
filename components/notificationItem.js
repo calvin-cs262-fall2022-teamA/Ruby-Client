@@ -4,11 +4,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 /**
- * 
- * @param {string} name of the item that is below notification level
- * @param {string} amount that is left in the inventory/database of given item
- * @returns notification component alert to notification screen 
  * A component used to display each item in the notification screen
+ *
+ * @param {Item} item item that is below notification level
+ * @param {string} amount that is left in the inventory/database of given item
+ * @returns notification component alert to notification screen
  */
 export default function NotificationItem({ item, amount }) {
 
