@@ -5,7 +5,15 @@ import Icon from 'react-native-vector-icons/Entypo';
 import { ItemsContext } from '../states/itemscontext';
 import { ActionButton } from './actionbutton';
 
-/* A component used to display each item in the ItemsScreen */
+/***
+ * A component used to display each item in the ItemsScreen
+ *
+ * @param {Item} item - object for changing screens in the stack navigator
+ * @param {object} navigation - object for changing screens in the stack navigator
+ * @param {boolean} isAdmin - whether the list item is for admin (shows edit button)
+ * @returns Component that displays an item
+ */
+
 export default function ListItem({ item, navigation, isAdmin }) {
 
   const [increment, setIncrement] = React.useState(item.defaultIncrement);

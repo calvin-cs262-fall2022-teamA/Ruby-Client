@@ -12,7 +12,7 @@ import { helpTexts } from '../data/helpTexts';
  *
  * @param {object} navigation - property used to shift from screen to screen
  * @param {object} route - change screens and transmit the data of the objects between screens
- * @returns
+ * @returns the item edit screen
  */
 export default function ItemEditScreen({ navigation, route }) {
   const item = route.params;

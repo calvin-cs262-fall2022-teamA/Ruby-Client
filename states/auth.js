@@ -1,4 +1,6 @@
 import * as React from 'react';
 
-// Login state variable
+/**
+ *  Login state variable
+ */
 export const AuthContext = React.createContext();
