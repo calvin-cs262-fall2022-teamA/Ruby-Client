@@ -5,11 +5,13 @@ Contains ruby application for running on devices
 - [Team Organization](https://github.com/calvin-cs262-fall2022-teamA)
 - [Project](https://github.com/calvin-cs262-fall2022-teamA/Ruby-Project)
 - [Data Service](https://github.com/calvin-cs262-fall2022-teamA/Ruby-Service)
-## Log in
-### Structure
-Based on [this](https://reactnavigation.org/docs/auth-flow/) tutorial.
-### Requirements
-1. database with API requests (saved to secure storage for now): register, login, get users, get permissions (first person to register automatically becomes an admin)
-2. Async storage for local user token from server (repeated logins and same device, until logout clears asynch storage)
-3. Single top level NavigationContainer and Stack.Navigator with boolean logic for different app states (login/register vs home vs home + inventory)
+## Getting Started
+Install [npm](https://nodejs.org/en/download/) and [expo](https://www.npmjs.com/package/expo-cli).
+Clone this repository, and in the repository folder, run these commands to start the app:
+```{sh}
+npm install
+expo start --tunnel
+```
+
+Install Expo Go on a mobile device
 
